@@ -1,4 +1,4 @@
-namespace AliPatchRom
+namespace AliPatch
 {
     internal static class Program
     {

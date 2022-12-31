@@ -1,4 +1,4 @@
-﻿namespace AliPatchRom
+﻿namespace AliPatch
 {
     partial class Form1
     {
@@ -101,7 +101,7 @@
             // buttonWorkingFolder
             // 
             this.buttonWorkingFolder.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.buttonWorkingFolder.Font = new System.Drawing.Font("新細明體", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.buttonWorkingFolder.Font = new System.Drawing.Font("PMingLiU", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.buttonWorkingFolder.Location = new System.Drawing.Point(374, 3);
             this.buttonWorkingFolder.Name = "buttonWorkingFolder";
             this.buttonWorkingFolder.Size = new System.Drawing.Size(74, 28);
@@ -132,7 +132,7 @@
             // buttonRomImage
             // 
             this.buttonRomImage.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.buttonRomImage.Font = new System.Drawing.Font("新細明體", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.buttonRomImage.Font = new System.Drawing.Font("PMingLiU", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.buttonRomImage.Location = new System.Drawing.Point(374, 37);
             this.buttonRomImage.Name = "buttonRomImage";
             this.buttonRomImage.Size = new System.Drawing.Size(74, 28);
@@ -164,7 +164,7 @@
             // 
             this.buttonDsaPrivateKey.Dock = System.Windows.Forms.DockStyle.Fill;
             this.buttonDsaPrivateKey.Enabled = false;
-            this.buttonDsaPrivateKey.Font = new System.Drawing.Font("新細明體", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.buttonDsaPrivateKey.Font = new System.Drawing.Font("PMingLiU", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.buttonDsaPrivateKey.Location = new System.Drawing.Point(374, 139);
             this.buttonDsaPrivateKey.Name = "buttonDsaPrivateKey";
             this.buttonDsaPrivateKey.Size = new System.Drawing.Size(74, 28);
@@ -215,7 +215,7 @@
             // 
             this.buttonUbiosPublicKey.Dock = System.Windows.Forms.DockStyle.Fill;
             this.buttonUbiosPublicKey.Enabled = false;
-            this.buttonUbiosPublicKey.Font = new System.Drawing.Font("新細明體", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.buttonUbiosPublicKey.Font = new System.Drawing.Font("PMingLiU", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.buttonUbiosPublicKey.Location = new System.Drawing.Point(374, 173);
             this.buttonUbiosPublicKey.Name = "buttonUbiosPublicKey";
             this.buttonUbiosPublicKey.Size = new System.Drawing.Size(74, 28);
@@ -247,7 +247,7 @@
             // 
             this.buttonBootLoaderPublicKey.Dock = System.Windows.Forms.DockStyle.Fill;
             this.buttonBootLoaderPublicKey.Enabled = false;
-            this.buttonBootLoaderPublicKey.Font = new System.Drawing.Font("新細明體", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.buttonBootLoaderPublicKey.Font = new System.Drawing.Font("PMingLiU", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.buttonBootLoaderPublicKey.Location = new System.Drawing.Point(374, 241);
             this.buttonBootLoaderPublicKey.Name = "buttonBootLoaderPublicKey";
             this.buttonBootLoaderPublicKey.Size = new System.Drawing.Size(74, 32);
@@ -282,7 +282,7 @@
             // 
             this.buttonHashAdd.Dock = System.Windows.Forms.DockStyle.Fill;
             this.buttonHashAdd.Enabled = false;
-            this.buttonHashAdd.Font = new System.Drawing.Font("新細明體", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.buttonHashAdd.Font = new System.Drawing.Font("PMingLiU", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.buttonHashAdd.Location = new System.Drawing.Point(3, 33);
             this.buttonHashAdd.Name = "buttonHashAdd";
             this.buttonHashAdd.Size = new System.Drawing.Size(68, 114);
@@ -295,7 +295,7 @@
             // 
             this.buttonHashRemove.Dock = System.Windows.Forms.DockStyle.Fill;
             this.buttonHashRemove.Enabled = false;
-            this.buttonHashRemove.Font = new System.Drawing.Font("新細明體", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.buttonHashRemove.Font = new System.Drawing.Font("PMingLiU", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.buttonHashRemove.Location = new System.Drawing.Point(3, 153);
             this.buttonHashRemove.Name = "buttonHashRemove";
             this.buttonHashRemove.Size = new System.Drawing.Size(68, 114);
@@ -318,7 +318,7 @@
             // 
             this.buttonOutputImage.Dock = System.Windows.Forms.DockStyle.Fill;
             this.buttonOutputImage.Enabled = false;
-            this.buttonOutputImage.Font = new System.Drawing.Font("新細明體", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.buttonOutputImage.Font = new System.Drawing.Font("PMingLiU", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.buttonOutputImage.Location = new System.Drawing.Point(374, 71);
             this.buttonOutputImage.Name = "buttonOutputImage";
             this.buttonOutputImage.Size = new System.Drawing.Size(74, 28);
@@ -438,7 +438,7 @@
             // 
             this.buttonUbcPublicKey.Dock = System.Windows.Forms.DockStyle.Fill;
             this.buttonUbcPublicKey.Enabled = false;
-            this.buttonUbcPublicKey.Font = new System.Drawing.Font("新細明體", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.buttonUbcPublicKey.Font = new System.Drawing.Font("PMingLiU", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.buttonUbcPublicKey.Location = new System.Drawing.Point(374, 207);
             this.buttonUbcPublicKey.Name = "buttonUbcPublicKey";
             this.buttonUbcPublicKey.Size = new System.Drawing.Size(74, 28);
@@ -499,7 +499,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(800, 400);
             this.Name = "Form1";
-            this.Text = "ROM Image Patch 0.1 build 20221223";
+            this.Text = "Patch 0.1 build 20221223";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
