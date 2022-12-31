@@ -39,9 +39,9 @@
             this.labelRomImage = new System.Windows.Forms.Label();
             this.textBoxInputImage = new System.Windows.Forms.TextBox();
             this.buttonRomImage = new System.Windows.Forms.Button();
-            this.labelPrivateKey = new System.Windows.Forms.Label();
-            this.textBoxPrivateKey = new System.Windows.Forms.TextBox();
-            this.buttonPrivateKey = new System.Windows.Forms.Button();
+            this.labelDsaPrivateKey = new System.Windows.Forms.Label();
+            this.textBoxDsaPrivateKey = new System.Windows.Forms.TextBox();
+            this.buttonDsaPrivateKey = new System.Windows.Forms.Button();
             this.labelUbiosVersion = new System.Windows.Forms.Label();
             this.textBoxUbiosVersion = new System.Windows.Forms.TextBox();
             this.labelUbiosPublicKey = new System.Windows.Forms.Label();
@@ -81,7 +81,7 @@
             // 
             this.labelWorkingFolder.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.labelWorkingFolder.AutoSize = true;
-            this.labelWorkingFolder.Location = new System.Drawing.Point(53, 17);
+            this.labelWorkingFolder.Location = new System.Drawing.Point(53, 9);
             this.labelWorkingFolder.Name = "labelWorkingFolder";
             this.labelWorkingFolder.Size = new System.Drawing.Size(94, 15);
             this.labelWorkingFolder.TabIndex = 0;
@@ -91,10 +91,12 @@
             // 
             this.comboBoxWorkingFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxWorkingFolder.FormattingEnabled = true;
-            this.comboBoxWorkingFolder.Location = new System.Drawing.Point(153, 13);
+            this.comboBoxWorkingFolder.Location = new System.Drawing.Point(153, 5);
             this.comboBoxWorkingFolder.Name = "comboBoxWorkingFolder";
             this.comboBoxWorkingFolder.Size = new System.Drawing.Size(215, 23);
             this.comboBoxWorkingFolder.TabIndex = 1;
+            this.comboBoxWorkingFolder.SelectedIndexChanged += new System.EventHandler(this.comboBoxWorkingFolder_SelectedIndexChanged);
+            this.comboBoxWorkingFolder.Leave += new System.EventHandler(this.comboBoxWorkingFolder_Leave);
             // 
             // buttonWorkingFolder
             // 
@@ -102,7 +104,7 @@
             this.buttonWorkingFolder.Font = new System.Drawing.Font("新細明體", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.buttonWorkingFolder.Location = new System.Drawing.Point(374, 3);
             this.buttonWorkingFolder.Name = "buttonWorkingFolder";
-            this.buttonWorkingFolder.Size = new System.Drawing.Size(74, 44);
+            this.buttonWorkingFolder.Size = new System.Drawing.Size(74, 28);
             this.buttonWorkingFolder.TabIndex = 2;
             this.buttonWorkingFolder.Text = "...";
             this.buttonWorkingFolder.UseVisualStyleBackColor = true;
@@ -112,7 +114,7 @@
             // 
             this.labelRomImage.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.labelRomImage.AutoSize = true;
-            this.labelRomImage.Location = new System.Drawing.Point(72, 67);
+            this.labelRomImage.Location = new System.Drawing.Point(72, 43);
             this.labelRomImage.Name = "labelRomImage";
             this.labelRomImage.Size = new System.Drawing.Size(75, 15);
             this.labelRomImage.TabIndex = 3;
@@ -121,7 +123,7 @@
             // textBoxInputImage
             // 
             this.textBoxInputImage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxInputImage.Location = new System.Drawing.Point(153, 63);
+            this.textBoxInputImage.Location = new System.Drawing.Point(153, 39);
             this.textBoxInputImage.Name = "textBoxInputImage";
             this.textBoxInputImage.Size = new System.Drawing.Size(215, 23);
             this.textBoxInputImage.TabIndex = 4;
@@ -131,51 +133,51 @@
             // 
             this.buttonRomImage.Dock = System.Windows.Forms.DockStyle.Fill;
             this.buttonRomImage.Font = new System.Drawing.Font("新細明體", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.buttonRomImage.Location = new System.Drawing.Point(374, 53);
+            this.buttonRomImage.Location = new System.Drawing.Point(374, 37);
             this.buttonRomImage.Name = "buttonRomImage";
-            this.buttonRomImage.Size = new System.Drawing.Size(74, 44);
+            this.buttonRomImage.Size = new System.Drawing.Size(74, 28);
             this.buttonRomImage.TabIndex = 5;
             this.buttonRomImage.Text = "...";
             this.buttonRomImage.UseVisualStyleBackColor = true;
             this.buttonRomImage.Click += new System.EventHandler(this.buttonRomImage_Click);
             // 
-            // labelPrivateKey
+            // labelDsaPrivateKey
             // 
-            this.labelPrivateKey.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.labelPrivateKey.AutoSize = true;
-            this.labelPrivateKey.Location = new System.Drawing.Point(79, 217);
-            this.labelPrivateKey.Name = "labelPrivateKey";
-            this.labelPrivateKey.Size = new System.Drawing.Size(68, 15);
-            this.labelPrivateKey.TabIndex = 11;
-            this.labelPrivateKey.Text = "Private Key";
+            this.labelDsaPrivateKey.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.labelDsaPrivateKey.AutoSize = true;
+            this.labelDsaPrivateKey.Location = new System.Drawing.Point(52, 145);
+            this.labelDsaPrivateKey.Name = "labelDsaPrivateKey";
+            this.labelDsaPrivateKey.Size = new System.Drawing.Size(95, 15);
+            this.labelDsaPrivateKey.TabIndex = 11;
+            this.labelDsaPrivateKey.Text = "DSA Private Key";
             // 
-            // textBoxPrivateKey
+            // textBoxDsaPrivateKey
             // 
-            this.textBoxPrivateKey.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxPrivateKey.Enabled = false;
-            this.textBoxPrivateKey.Location = new System.Drawing.Point(153, 213);
-            this.textBoxPrivateKey.Name = "textBoxPrivateKey";
-            this.textBoxPrivateKey.Size = new System.Drawing.Size(215, 23);
-            this.textBoxPrivateKey.TabIndex = 12;
+            this.textBoxDsaPrivateKey.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxDsaPrivateKey.Enabled = false;
+            this.textBoxDsaPrivateKey.Location = new System.Drawing.Point(153, 141);
+            this.textBoxDsaPrivateKey.Name = "textBoxDsaPrivateKey";
+            this.textBoxDsaPrivateKey.Size = new System.Drawing.Size(215, 23);
+            this.textBoxDsaPrivateKey.TabIndex = 12;
             // 
-            // buttonPrivateKey
+            // buttonDsaPrivateKey
             // 
-            this.buttonPrivateKey.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.buttonPrivateKey.Enabled = false;
-            this.buttonPrivateKey.Font = new System.Drawing.Font("新細明體", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.buttonPrivateKey.Location = new System.Drawing.Point(374, 203);
-            this.buttonPrivateKey.Name = "buttonPrivateKey";
-            this.buttonPrivateKey.Size = new System.Drawing.Size(74, 44);
-            this.buttonPrivateKey.TabIndex = 13;
-            this.buttonPrivateKey.Text = "...";
-            this.buttonPrivateKey.UseVisualStyleBackColor = true;
-            this.buttonPrivateKey.Click += new System.EventHandler(this.buttonPrivateKey_Click);
+            this.buttonDsaPrivateKey.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonDsaPrivateKey.Enabled = false;
+            this.buttonDsaPrivateKey.Font = new System.Drawing.Font("新細明體", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.buttonDsaPrivateKey.Location = new System.Drawing.Point(374, 139);
+            this.buttonDsaPrivateKey.Name = "buttonDsaPrivateKey";
+            this.buttonDsaPrivateKey.Size = new System.Drawing.Size(74, 28);
+            this.buttonDsaPrivateKey.TabIndex = 13;
+            this.buttonDsaPrivateKey.Text = "...";
+            this.buttonDsaPrivateKey.UseVisualStyleBackColor = true;
+            this.buttonDsaPrivateKey.Click += new System.EventHandler(this.buttonDsaPrivateKey_Click);
             // 
             // labelUbiosVersion
             // 
             this.labelUbiosVersion.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.labelUbiosVersion.AutoSize = true;
-            this.labelUbiosVersion.Location = new System.Drawing.Point(59, 167);
+            this.labelUbiosVersion.Location = new System.Drawing.Point(59, 111);
             this.labelUbiosVersion.Name = "labelUbiosVersion";
             this.labelUbiosVersion.Size = new System.Drawing.Size(88, 15);
             this.labelUbiosVersion.TabIndex = 9;
@@ -185,7 +187,7 @@
             // 
             this.textBoxUbiosVersion.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxUbiosVersion.Enabled = false;
-            this.textBoxUbiosVersion.Location = new System.Drawing.Point(153, 163);
+            this.textBoxUbiosVersion.Location = new System.Drawing.Point(153, 107);
             this.textBoxUbiosVersion.Name = "textBoxUbiosVersion";
             this.textBoxUbiosVersion.Size = new System.Drawing.Size(215, 23);
             this.textBoxUbiosVersion.TabIndex = 10;
@@ -194,7 +196,7 @@
             // 
             this.labelUbiosPublicKey.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.labelUbiosPublicKey.AutoSize = true;
-            this.labelUbiosPublicKey.Location = new System.Drawing.Point(44, 267);
+            this.labelUbiosPublicKey.Location = new System.Drawing.Point(44, 179);
             this.labelUbiosPublicKey.Name = "labelUbiosPublicKey";
             this.labelUbiosPublicKey.Size = new System.Drawing.Size(103, 15);
             this.labelUbiosPublicKey.TabIndex = 14;
@@ -204,7 +206,7 @@
             // 
             this.textBoxUbiosPublicKey.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxUbiosPublicKey.Enabled = false;
-            this.textBoxUbiosPublicKey.Location = new System.Drawing.Point(153, 263);
+            this.textBoxUbiosPublicKey.Location = new System.Drawing.Point(153, 175);
             this.textBoxUbiosPublicKey.Name = "textBoxUbiosPublicKey";
             this.textBoxUbiosPublicKey.Size = new System.Drawing.Size(215, 23);
             this.textBoxUbiosPublicKey.TabIndex = 15;
@@ -214,9 +216,9 @@
             this.buttonUbiosPublicKey.Dock = System.Windows.Forms.DockStyle.Fill;
             this.buttonUbiosPublicKey.Enabled = false;
             this.buttonUbiosPublicKey.Font = new System.Drawing.Font("新細明體", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.buttonUbiosPublicKey.Location = new System.Drawing.Point(374, 253);
+            this.buttonUbiosPublicKey.Location = new System.Drawing.Point(374, 173);
             this.buttonUbiosPublicKey.Name = "buttonUbiosPublicKey";
-            this.buttonUbiosPublicKey.Size = new System.Drawing.Size(74, 44);
+            this.buttonUbiosPublicKey.Size = new System.Drawing.Size(74, 28);
             this.buttonUbiosPublicKey.TabIndex = 16;
             this.buttonUbiosPublicKey.Text = "...";
             this.buttonUbiosPublicKey.UseVisualStyleBackColor = true;
@@ -226,7 +228,7 @@
             // 
             this.labelBootLoaderPublicKey.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.labelBootLoaderPublicKey.AutoSize = true;
-            this.labelBootLoaderPublicKey.Location = new System.Drawing.Point(10, 367);
+            this.labelBootLoaderPublicKey.Location = new System.Drawing.Point(10, 249);
             this.labelBootLoaderPublicKey.Name = "labelBootLoaderPublicKey";
             this.labelBootLoaderPublicKey.Size = new System.Drawing.Size(137, 15);
             this.labelBootLoaderPublicKey.TabIndex = 20;
@@ -236,7 +238,7 @@
             // 
             this.textBoxBootLoaderPublicKey.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxBootLoaderPublicKey.Enabled = false;
-            this.textBoxBootLoaderPublicKey.Location = new System.Drawing.Point(153, 363);
+            this.textBoxBootLoaderPublicKey.Location = new System.Drawing.Point(153, 245);
             this.textBoxBootLoaderPublicKey.Name = "textBoxBootLoaderPublicKey";
             this.textBoxBootLoaderPublicKey.Size = new System.Drawing.Size(215, 23);
             this.textBoxBootLoaderPublicKey.TabIndex = 21;
@@ -246,9 +248,9 @@
             this.buttonBootLoaderPublicKey.Dock = System.Windows.Forms.DockStyle.Fill;
             this.buttonBootLoaderPublicKey.Enabled = false;
             this.buttonBootLoaderPublicKey.Font = new System.Drawing.Font("新細明體", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.buttonBootLoaderPublicKey.Location = new System.Drawing.Point(374, 353);
+            this.buttonBootLoaderPublicKey.Location = new System.Drawing.Point(374, 241);
             this.buttonBootLoaderPublicKey.Name = "buttonBootLoaderPublicKey";
-            this.buttonBootLoaderPublicKey.Size = new System.Drawing.Size(74, 44);
+            this.buttonBootLoaderPublicKey.Size = new System.Drawing.Size(74, 32);
             this.buttonBootLoaderPublicKey.TabIndex = 22;
             this.buttonBootLoaderPublicKey.Text = "...";
             this.buttonBootLoaderPublicKey.UseVisualStyleBackColor = true;
@@ -272,7 +274,8 @@
             this.listBoxHash.ItemHeight = 15;
             this.listBoxHash.Location = new System.Drawing.Point(83, 3);
             this.listBoxHash.Name = "listBoxHash";
-            this.listBoxHash.Size = new System.Drawing.Size(289, 394);
+            this.listBoxHash.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+            this.listBoxHash.Size = new System.Drawing.Size(289, 270);
             this.listBoxHash.TabIndex = 0;
             // 
             // buttonHashAdd
@@ -282,7 +285,7 @@
             this.buttonHashAdd.Font = new System.Drawing.Font("新細明體", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.buttonHashAdd.Location = new System.Drawing.Point(3, 33);
             this.buttonHashAdd.Name = "buttonHashAdd";
-            this.buttonHashAdd.Size = new System.Drawing.Size(68, 176);
+            this.buttonHashAdd.Size = new System.Drawing.Size(68, 114);
             this.buttonHashAdd.TabIndex = 0;
             this.buttonHashAdd.Text = "+";
             this.buttonHashAdd.UseVisualStyleBackColor = true;
@@ -293,9 +296,9 @@
             this.buttonHashRemove.Dock = System.Windows.Forms.DockStyle.Fill;
             this.buttonHashRemove.Enabled = false;
             this.buttonHashRemove.Font = new System.Drawing.Font("新細明體", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.buttonHashRemove.Location = new System.Drawing.Point(3, 215);
+            this.buttonHashRemove.Location = new System.Drawing.Point(3, 153);
             this.buttonHashRemove.Name = "buttonHashRemove";
-            this.buttonHashRemove.Size = new System.Drawing.Size(68, 176);
+            this.buttonHashRemove.Size = new System.Drawing.Size(68, 114);
             this.buttonHashRemove.TabIndex = 1;
             this.buttonHashRemove.Text = "-";
             this.buttonHashRemove.UseVisualStyleBackColor = true;
@@ -305,7 +308,7 @@
             // 
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(61, 117);
+            this.label1.Location = new System.Drawing.Point(61, 77);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(86, 15);
             this.label1.TabIndex = 6;
@@ -316,9 +319,9 @@
             this.buttonOutputImage.Dock = System.Windows.Forms.DockStyle.Fill;
             this.buttonOutputImage.Enabled = false;
             this.buttonOutputImage.Font = new System.Drawing.Font("新細明體", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.buttonOutputImage.Location = new System.Drawing.Point(374, 103);
+            this.buttonOutputImage.Location = new System.Drawing.Point(374, 71);
             this.buttonOutputImage.Name = "buttonOutputImage";
-            this.buttonOutputImage.Size = new System.Drawing.Size(74, 44);
+            this.buttonOutputImage.Size = new System.Drawing.Size(74, 28);
             this.buttonOutputImage.TabIndex = 8;
             this.buttonOutputImage.Text = "...";
             this.buttonOutputImage.UseVisualStyleBackColor = true;
@@ -327,7 +330,7 @@
             // 
             this.textBoxOutputImage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxOutputImage.Enabled = false;
-            this.textBoxOutputImage.Location = new System.Drawing.Point(153, 113);
+            this.textBoxOutputImage.Location = new System.Drawing.Point(153, 73);
             this.textBoxOutputImage.Name = "textBoxOutputImage";
             this.textBoxOutputImage.Size = new System.Drawing.Size(215, 23);
             this.textBoxOutputImage.TabIndex = 7;
@@ -337,12 +340,13 @@
             this.buttonGenerate.Dock = System.Windows.Forms.DockStyle.Fill;
             this.buttonGenerate.Enabled = false;
             this.buttonGenerate.Font = new System.Drawing.Font("Microsoft JhengHei UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.buttonGenerate.Location = new System.Drawing.Point(3, 415);
+            this.buttonGenerate.Location = new System.Drawing.Point(3, 291);
             this.buttonGenerate.Name = "buttonGenerate";
-            this.buttonGenerate.Size = new System.Drawing.Size(838, 97);
+            this.buttonGenerate.Size = new System.Drawing.Size(838, 67);
             this.buttonGenerate.TabIndex = 0;
             this.buttonGenerate.Text = "Generate";
             this.buttonGenerate.UseVisualStyleBackColor = true;
+            this.buttonGenerate.Click += new System.EventHandler(this.buttonGenerate_Click);
             // 
             // tableLayoutPanel1
             // 
@@ -356,7 +360,7 @@
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 80F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(844, 515);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(844, 361);
             this.tableLayoutPanel1.TabIndex = 27;
             // 
             // tableLayoutPanel2
@@ -374,7 +378,7 @@
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(838, 406);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(838, 282);
             this.tableLayoutPanel2.TabIndex = 0;
             // 
             // tableLayoutPanel3
@@ -389,15 +393,15 @@
             this.tableLayoutPanel3.Controls.Add(this.label1, 0, 2);
             this.tableLayoutPanel3.Controls.Add(this.textBoxOutputImage, 1, 2);
             this.tableLayoutPanel3.Controls.Add(this.buttonBootLoaderPublicKey, 2, 7);
-            this.tableLayoutPanel3.Controls.Add(this.labelPrivateKey, 0, 4);
-            this.tableLayoutPanel3.Controls.Add(this.buttonPrivateKey, 2, 4);
+            this.tableLayoutPanel3.Controls.Add(this.labelDsaPrivateKey, 0, 4);
+            this.tableLayoutPanel3.Controls.Add(this.buttonDsaPrivateKey, 2, 4);
             this.tableLayoutPanel3.Controls.Add(this.textBoxBootLoaderPublicKey, 1, 7);
             this.tableLayoutPanel3.Controls.Add(this.labelBootLoaderPublicKey, 0, 7);
             this.tableLayoutPanel3.Controls.Add(this.comboBoxWorkingFolder, 1, 0);
             this.tableLayoutPanel3.Controls.Add(this.buttonRomImage, 2, 1);
             this.tableLayoutPanel3.Controls.Add(this.buttonWorkingFolder, 2, 0);
             this.tableLayoutPanel3.Controls.Add(this.textBoxInputImage, 1, 1);
-            this.tableLayoutPanel3.Controls.Add(this.textBoxPrivateKey, 1, 4);
+            this.tableLayoutPanel3.Controls.Add(this.textBoxDsaPrivateKey, 1, 4);
             this.tableLayoutPanel3.Controls.Add(this.labelUbiosVersion, 0, 3);
             this.tableLayoutPanel3.Controls.Add(this.textBoxUbiosVersion, 1, 3);
             this.tableLayoutPanel3.Controls.Add(this.labelUbiosPublicKey, 0, 5);
@@ -418,14 +422,14 @@
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(451, 400);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(451, 276);
             this.tableLayoutPanel3.TabIndex = 0;
             // 
             // textBoxUbcPublicKey
             // 
             this.textBoxUbcPublicKey.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxUbcPublicKey.Enabled = false;
-            this.textBoxUbcPublicKey.Location = new System.Drawing.Point(153, 313);
+            this.textBoxUbcPublicKey.Location = new System.Drawing.Point(153, 209);
             this.textBoxUbcPublicKey.Name = "textBoxUbcPublicKey";
             this.textBoxUbcPublicKey.Size = new System.Drawing.Size(215, 23);
             this.textBoxUbcPublicKey.TabIndex = 18;
@@ -435,9 +439,9 @@
             this.buttonUbcPublicKey.Dock = System.Windows.Forms.DockStyle.Fill;
             this.buttonUbcPublicKey.Enabled = false;
             this.buttonUbcPublicKey.Font = new System.Drawing.Font("新細明體", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.buttonUbcPublicKey.Location = new System.Drawing.Point(374, 303);
+            this.buttonUbcPublicKey.Location = new System.Drawing.Point(374, 207);
             this.buttonUbcPublicKey.Name = "buttonUbcPublicKey";
-            this.buttonUbcPublicKey.Size = new System.Drawing.Size(74, 44);
+            this.buttonUbcPublicKey.Size = new System.Drawing.Size(74, 28);
             this.buttonUbcPublicKey.TabIndex = 19;
             this.buttonUbcPublicKey.Text = "...";
             this.buttonUbcPublicKey.UseVisualStyleBackColor = true;
@@ -447,7 +451,7 @@
             // 
             this.labelUbcPublicKey.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.labelUbcPublicKey.AutoSize = true;
-            this.labelUbcPublicKey.Location = new System.Drawing.Point(56, 317);
+            this.labelUbcPublicKey.Location = new System.Drawing.Point(56, 213);
             this.labelUbcPublicKey.Name = "labelUbcPublicKey";
             this.labelUbcPublicKey.Size = new System.Drawing.Size(91, 15);
             this.labelUbcPublicKey.TabIndex = 17;
@@ -465,7 +469,7 @@
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
             this.tableLayoutPanel4.RowCount = 1;
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(375, 400);
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(375, 276);
             this.tableLayoutPanel4.TabIndex = 1;
             // 
             // tableLayoutPanel5
@@ -483,17 +487,17 @@
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel5.Size = new System.Drawing.Size(74, 394);
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(74, 270);
             this.tableLayoutPanel5.TabIndex = 20;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(844, 515);
+            this.ClientSize = new System.Drawing.Size(844, 361);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MinimumSize = new System.Drawing.Size(860, 400);
+            this.MinimumSize = new System.Drawing.Size(800, 400);
             this.Name = "Form1";
             this.Text = "ROM Image Patch 0.1 build 20221223";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
@@ -520,9 +524,9 @@
         private Label labelRomImage;
         private TextBox textBoxInputImage;
         private Button buttonRomImage;
-        private Label labelPrivateKey;
-        private TextBox textBoxPrivateKey;
-        private Button buttonPrivateKey;
+        private Label labelDsaPrivateKey;
+        private TextBox textBoxDsaPrivateKey;
+        private Button buttonDsaPrivateKey;
         private Label labelUbiosVersion;
         private TextBox textBoxUbiosVersion;
         private Label labelUbiosPublicKey;
