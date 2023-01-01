@@ -1,4 +1,4 @@
-﻿namespace AliPatch
+﻿namespace AliSign
 {
     partial class Form1
     {
@@ -499,7 +499,6 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(800, 400);
             this.Name = "Form1";
-            this.Text = "Patch 0.1 build 20221223";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.tableLayoutPanel1.ResumeLayout(false);

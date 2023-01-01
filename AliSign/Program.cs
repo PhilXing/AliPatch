@@ -1,4 +1,4 @@
-namespace AliPatch
+namespace AliSign
 {
     internal static class Program
     {

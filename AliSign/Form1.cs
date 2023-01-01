@@ -27,11 +27,11 @@ using Org.BouncyCastle.Math;
 using System.Globalization;
 using System.Security.Policy;
 
-namespace AliPatch
+namespace AliSign
 {
     public partial class Form1 : Form
     {
-        public const string APP_KEY = "AliPatch";
+        public const string APP_KEY = "AliSign";
         public const string APP_VERSION_VALUE = "AppVersion";
         public const string APP_REGISTRY_VERSION = "0.1";
         private const string APP_SUBKAY = "Software\\" + COMPANY_NAME + "\\" + APP_KEY;
