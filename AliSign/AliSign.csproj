@@ -8,6 +8,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <ApplicationIcon>patch_icon_132102.ico</ApplicationIcon>
     <AssemblyVersion>0.0.0.1</AssemblyVersion>
+    <Company>ADLink</Company>
   </PropertyGroup>
 
   <ItemGroup>

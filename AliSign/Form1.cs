@@ -26,34 +26,35 @@ using Org.BouncyCastle.Asn1;
 using Org.BouncyCastle.Math;
 using System.Globalization;
 using System.Security.Policy;
+using System.Reflection;
 
 namespace AliSign
 {
     public partial class Form1 : Form
     {
-        public const string APP_KEY = "AliSign";
-        public const string APP_VERSION_VALUE = "AppVersion";
-        public const string APP_REGISTRY_VERSION = "0.1";
-        private const string APP_SUBKAY = "Software\\" + COMPANY_NAME + "\\" + APP_KEY;
-        public const string COMPANY_NAME = "ADLink";
+        public const string REG_VALUE_APP_VERSION = "AppVersion";
+        public const string APP_REGISTRY_VERSION = "0.1"; // change this will clear all registry of the project.
 
-        public const string VALUE_WORKING_PATH_LIST = "WorkingPathList";
-        public const string VALUE_WORKING_PATH_SELECTEDINDEX = "WorkingPathSelected";
-        public const string VALUE_ROM_IMAGE_INPUT_PATH = "RomImageInputPath";
-        public const string VALUE_ROM_IMAGE_OUTPUT_PATH = "RomImageOutputPath";
-        public const string VALUE_PRIVATE_KEY_PATH = "DsaPrivateKeyPath";
-        public const string VALUE_UBIOS_VERSION = "UbiosVersion";
-        public const string VALUE_UBIOS_PUBLIC_KEY_PATH = "UbiosPublickeyPath";
-        public const string VALUE_UBC_PUBLIC_KEY_PATH = "UbcPublicKeyPath";
-        public const string VALUE_BOOT_LOADER_PUBLIC_KEY_PATH = "BootLoaderPublicKeyPath";
-        public const string VALUE_HASH_PATH_LIST = "HashPathList";
+        public const string REG_VALUE_WORKING_PATH_LIST = "WorkingPathList";
+        public const string REG_VALUE_WORKING_PATH_SELECTEDINDEX = "WorkingPathSelected";
+        public const string REG_VALUE_ROM_IMAGE_INPUT_PATH = "RomImageInputPath";
+        public const string REG_VALUE_ROM_IMAGE_OUTPUT_PATH = "RomImageOutputPath";
+        public const string REG_VALUE_PRIVATE_KEY_PATH = "DsaPrivateKeyPath";
+        public const string REG_VALUE_UBIOS_VERSION = "UbiosVersion";
+        public const string REG_VALUE_UBIOS_PUBLIC_KEY_PATH = "UbiosPublickeyPath";
+        public const string REG_VALUE_UBC_PUBLIC_KEY_PATH = "UbcPublicKeyPath";
+        public const string REG_VALUE_BOOT_LOADER_PUBLIC_KEY_PATH = "BootLoaderPublicKeyPath";
+        public const string REG_VALUE_HASH_PATH_LIST = "HashPathList";
 
         public const int MAX_WORKING_FOLDER_SAVED = 5;
 
         public const int HASH_FILE_SIZE = 20;
+        // TODO: confirm the size of the DSA private key
         public const int PRIVATE_KEY_SIZE = 684;
+        public const int PRIVATE_KEY_SIZE_2 = 672;
         public const int PUBLIC_KEY_SIZE = 404;
         public const int ROM_FILE_SIZE = 0x800000;
+        public const string DEFAULT_VERSION_STRING = "UBIOS Version: 8.00.0";
 
         public const int OFFSET_HASH_LIST_START = 0x37c;
         public const int OFFSET_HASH_LIST_END_PLUS1 = 0x10000;
@@ -63,6 +64,10 @@ namespace AliSign
         public const int OFFSET_UBIOS_PUBLIC_KEY = 0x7f8020;
 
         public const int MAX_HASH_PATH_COUNT = (OFFSET_HASH_LIST_END_PLUS1 - OFFSET_HASH_LIST_START) / HASH_FILE_SIZE;
+
+        public string registryAppKey;
+        public string registryAppSubKey;
+        public string registryCompanyName;
 
         public byte[] RomImage;
         public int identificationAlignment = 16;
@@ -102,22 +107,21 @@ namespace AliSign
 
         private void SaveSettings()
         {
-            RegistryKey appKey = Registry.CurrentUser.CreateSubKey("Software\\" + COMPANY_NAME + "\\" + APP_KEY);
+            RegistryKey appKey = Registry.CurrentUser.CreateSubKey(registryAppSubKey);
 
-            //appKey.SetValue(VALUE_WORKING_PATH, comboBoxWorkingFolder.Text);
-            appKey.SetValue(VALUE_WORKING_PATH_SELECTEDINDEX, comboBoxWorkingFolder.SelectedIndex);
-            appKey.SetValue(VALUE_ROM_IMAGE_INPUT_PATH, textBoxInputImage.Text);
-            appKey.SetValue(VALUE_ROM_IMAGE_OUTPUT_PATH, textBoxOutputImage.Text);
-            appKey.SetValue(VALUE_PRIVATE_KEY_PATH, textBoxDsaPrivateKey.Text);
-            appKey.SetValue(VALUE_UBIOS_VERSION, textBoxUbiosVersion.Text);
-            appKey.SetValue(VALUE_UBIOS_PUBLIC_KEY_PATH, textBoxUbiosPublicKey.Text);
-            appKey.SetValue(VALUE_UBC_PUBLIC_KEY_PATH, textBoxUbcPublicKey.Text);
-            appKey.SetValue(VALUE_BOOT_LOADER_PUBLIC_KEY_PATH, textBoxBootLoaderPublicKey.Text);
+            appKey.SetValue(REG_VALUE_WORKING_PATH_SELECTEDINDEX, comboBoxWorkingFolder.SelectedIndex);
+            appKey.SetValue(REG_VALUE_ROM_IMAGE_INPUT_PATH, textBoxInputImage.Text);
+            appKey.SetValue(REG_VALUE_ROM_IMAGE_OUTPUT_PATH, textBoxOutputImage.Text);
+            appKey.SetValue(REG_VALUE_PRIVATE_KEY_PATH, textBoxDsaPrivateKey.Text);
+            appKey.SetValue(REG_VALUE_UBIOS_VERSION, textBoxUbiosVersion.Text);
+            appKey.SetValue(REG_VALUE_UBIOS_PUBLIC_KEY_PATH, textBoxUbiosPublicKey.Text);
+            appKey.SetValue(REG_VALUE_UBC_PUBLIC_KEY_PATH, textBoxUbcPublicKey.Text);
+            appKey.SetValue(REG_VALUE_BOOT_LOADER_PUBLIC_KEY_PATH, textBoxBootLoaderPublicKey.Text);
             //
             // Save comboBox Lists
             // 
-            SaveComboSettings(appKey, VALUE_WORKING_PATH_LIST, comboBoxWorkingFolder, MAX_WORKING_FOLDER_SAVED);
-            SaveListSettings(appKey, VALUE_HASH_PATH_LIST, listBoxHash, MAX_HASH_PATH_COUNT);
+            SaveComboSettings(appKey, REG_VALUE_WORKING_PATH_LIST, comboBoxWorkingFolder, MAX_WORKING_FOLDER_SAVED);
+            SaveListSettings(appKey, REG_VALUE_HASH_PATH_LIST, listBoxHash, MAX_HASH_PATH_COUNT);
         }
 
         private void RestoreComboSettings(RegistryKey appKey, string keyName, System.Windows.Forms.ComboBox comboBox, int maxCount)
@@ -150,43 +154,46 @@ namespace AliSign
 
         private void RestoreSettings()
         {
+            registryAppKey = System.Reflection.Assembly.GetEntryAssembly().GetName().Name;
+            registryCompanyName = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyCompanyAttribute>().Company;
+            registryAppSubKey = "Software\\" + registryCompanyName + "\\" + registryAppKey;
             //
             // Retrieve Registry keys
             //
-            RegistryKey appKey = Registry.CurrentUser.OpenSubKey("Software\\" + COMPANY_NAME + "\\" + APP_KEY);
-            if (appKey == null)
+            RegistryKey appKey = Registry.CurrentUser.OpenSubKey(registryAppSubKey);
+                if (appKey == null)
             {
-                Registry.SetValue("HKEY_CURRENT_USER\\Software\\" + COMPANY_NAME + "\\" + APP_KEY, APP_VERSION_VALUE, APP_REGISTRY_VERSION);
+                Registry.SetValue("HKEY_CURRENT_USER\\" + registryAppSubKey, REG_VALUE_APP_VERSION, APP_REGISTRY_VERSION);
                 return;
             }
-            string Str = (string)appKey.GetValue(APP_VERSION_VALUE, "0.0");
+            string Str = (string)appKey.GetValue(REG_VALUE_APP_VERSION, "0.0");
             if (String.Compare(APP_REGISTRY_VERSION, Str) != 0)
             {
-                RegistryKey appFamilyKey = Registry.CurrentUser.OpenSubKey("Software\\" + COMPANY_NAME, true);
+                RegistryKey appFamilyKey = Registry.CurrentUser.OpenSubKey("Software\\" + registryCompanyName, true);
                 if (appFamilyKey != null)
                 {
-                    appFamilyKey.DeleteSubKeyTree(APP_KEY);
-                    Registry.SetValue("HKEY_CURRENT_USER\\Software\\" + COMPANY_NAME + "\\" + APP_KEY, APP_VERSION_VALUE, APP_REGISTRY_VERSION);
+                    appFamilyKey.DeleteSubKeyTree(registryAppKey);
+                    Registry.SetValue("HKEY_CURRENT_USER\\" + registryAppSubKey, REG_VALUE_APP_VERSION, APP_REGISTRY_VERSION);
                 }
                 return;
             }
             //
             // Restore lists
             //
-            RestoreComboSettings(appKey, VALUE_WORKING_PATH_LIST, comboBoxWorkingFolder, MAX_WORKING_FOLDER_SAVED);
-            RestoreListSettings(appKey, VALUE_HASH_PATH_LIST, listBoxHash, MAX_HASH_PATH_COUNT);
+            RestoreComboSettings(appKey, REG_VALUE_WORKING_PATH_LIST, comboBoxWorkingFolder, MAX_WORKING_FOLDER_SAVED);
+            RestoreListSettings(appKey, REG_VALUE_HASH_PATH_LIST, listBoxHash, MAX_HASH_PATH_COUNT);
             //
             // Restore controls
             //
-            //comboBoxWorkingFolder.Text = (string)appKey.GetValue(VALUE_WORKING_PATH, "");
-            comboBoxWorkingFolder.SelectedIndex = (int)appKey.GetValue(VALUE_WORKING_PATH_SELECTEDINDEX, 0);
-            textBoxInputImage.Text = (string)appKey.GetValue(VALUE_ROM_IMAGE_INPUT_PATH, "");
-            textBoxOutputImage.Text = (string)appKey.GetValue(VALUE_ROM_IMAGE_OUTPUT_PATH, "");
-            textBoxDsaPrivateKey.Text = (string)appKey.GetValue(VALUE_PRIVATE_KEY_PATH, "");
-            textBoxUbiosVersion.Text = (string)appKey.GetValue(VALUE_UBIOS_VERSION, "");
-            textBoxUbiosPublicKey.Text = (string)appKey.GetValue(VALUE_UBIOS_PUBLIC_KEY_PATH, "");
-            textBoxUbcPublicKey.Text = (string)appKey.GetValue(VALUE_UBC_PUBLIC_KEY_PATH, "");
-            textBoxBootLoaderPublicKey.Text = (string)appKey.GetValue(VALUE_BOOT_LOADER_PUBLIC_KEY_PATH, "");
+            //comboBoxWorkingFolder.Text = (string)appKey.GetValue(REG_VALUE_WORKING_PATH, "");
+            comboBoxWorkingFolder.SelectedIndex = (int)appKey.GetValue(REG_VALUE_WORKING_PATH_SELECTEDINDEX, 0);
+            textBoxInputImage.Text = (string)appKey.GetValue(REG_VALUE_ROM_IMAGE_INPUT_PATH, "");
+            textBoxOutputImage.Text = (string)appKey.GetValue(REG_VALUE_ROM_IMAGE_OUTPUT_PATH, "");
+            textBoxDsaPrivateKey.Text = (string)appKey.GetValue(REG_VALUE_PRIVATE_KEY_PATH, "");
+            textBoxUbiosVersion.Text = (string)appKey.GetValue(REG_VALUE_UBIOS_VERSION, "");
+            textBoxUbiosPublicKey.Text = (string)appKey.GetValue(REG_VALUE_UBIOS_PUBLIC_KEY_PATH, "");
+            textBoxUbcPublicKey.Text = (string)appKey.GetValue(REG_VALUE_UBC_PUBLIC_KEY_PATH, "");
+            textBoxBootLoaderPublicKey.Text = (string)appKey.GetValue(REG_VALUE_BOOT_LOADER_PUBLIC_KEY_PATH, "");
         }
 
         public Form1()
@@ -314,6 +321,11 @@ namespace AliSign
                 this.Location = Properties.Settings.Default.F1Location;
                 this.Size = Properties.Settings.Default.F1Size;
             }
+            
+            // update title text
+            string assemblyVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            string projectName = System.Reflection.Assembly.GetEntryAssembly().GetName().Name;
+            this.Text = projectName + " " + assemblyVersion;
         }
 
         private void textBoxInputImage_TextChanged(object sender, EventArgs e)
@@ -473,6 +485,7 @@ namespace AliSign
             textBoxInputImage.Text = string.Empty;
             textBoxOutputImage.Text = string.Empty;
             textBoxDsaPrivateKey.Text = string.Empty;
+            textBoxUbiosPublicKey.Text = string.Empty;
             textBoxUbcPublicKey.Text = string.Empty;
             textBoxBootLoaderPublicKey.Text = string.Empty;
 
@@ -488,7 +501,8 @@ namespace AliSign
                     listBoxHash.Items.Add(info.FullName);
                     continue;
                 }
-                if (info.Length == PRIVATE_KEY_SIZE)
+                // TODO: confirm the size of the private key
+                if (info.Length == PRIVATE_KEY_SIZE || info.Length == PRIVATE_KEY_SIZE_2)
                 {
                     if (String.IsNullOrEmpty(textBoxDsaPrivateKey.Text))
                     {
@@ -497,8 +511,8 @@ namespace AliSign
                     continue;
                 }
                 if (info.Length == PUBLIC_KEY_SIZE)
-                {
-                    if (string.IsNullOrEmpty(textBoxUbcPublicKey.Text) && info.Name.Contains("UBC", StringComparison.OrdinalIgnoreCase))
+                    {
+                        if (string.IsNullOrEmpty(textBoxUbcPublicKey.Text) && info.Name.Contains("UBC", StringComparison.OrdinalIgnoreCase))
                     {
                         textBoxUbcPublicKey.Text += info.FullName;
                         continue;
@@ -527,6 +541,11 @@ namespace AliSign
                     continue;
                 }
             }
+            if (String.IsNullOrEmpty(textBoxUbiosVersion.Text))
+            {
+                textBoxUbiosVersion.Text = DEFAULT_VERSION_STRING;
+            }
+
             enableControls(inputImageSelected);
 
         }
@@ -546,7 +565,7 @@ namespace AliSign
 
         private void comboBoxWorkingFolder_Leave(object sender, EventArgs e)
         {
-            if (comboBoxWorkingFolder.SelectedIndex== -1)
+            //if (comboBoxWorkingFolder.SelectedIndex== -1)
             {
                 if (UpdateComboBox(comboBoxWorkingFolder, comboBoxWorkingFolder.Text, true))
                 {
