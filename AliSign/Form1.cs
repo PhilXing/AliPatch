@@ -27,6 +27,7 @@ using Org.BouncyCastle.Math;
 using System.Globalization;
 using System.Security.Policy;
 using System.Reflection;
+using Org.BouncyCastle.Cms;
 
 namespace AliSign
 {
@@ -37,8 +38,10 @@ namespace AliSign
 
         public const string REG_VALUE_WORKING_PATH_LIST = "WorkingPathList";
         public const string REG_VALUE_WORKING_PATH_SELECTEDINDEX = "WorkingPathSelected";
-        public const string REG_VALUE_ROM_IMAGE_INPUT_PATH = "RomImageInputPath";
-        public const string REG_VALUE_ROM_IMAGE_OUTPUT_PATH = "RomImageOutputPath";
+        public const string REG_VALUE_SIGN_TAB_INDEX = "SignTabIndex";
+
+        public const string REG_VALUE_IMAGE_BIOS_PATH = "ImageBiosPath";
+        public const string REG_VALUE_IMAGE_OUTPUT_BIOS_PATH = "ImageOutputBiosPath";
         public const string REG_VALUE_PRIVATE_KEY_PATH = "DsaPrivateKeyPath";
         public const string REG_VALUE_UBIOS_VERSION = "UbiosVersion";
         public const string REG_VALUE_UBIOS_PUBLIC_KEY_PATH = "UbiosPublickeyPath";
@@ -46,9 +49,16 @@ namespace AliSign
         public const string REG_VALUE_BOOT_LOADER_PUBLIC_KEY_PATH = "BootLoaderPublicKeyPath";
         public const string REG_VALUE_HASH_PATH_LIST = "HashPathList";
 
+        public const string REG_VALUE_IMAGE_DISK_PATH = "ImageDiskPath";
+        public const string REG_VALUE_IMAGE_OUTPUT_DISK_PATH = "ImageOutputDiskPath";
+
+        public const string REG_VALUE_IMAGE_UBC_PATH = "ImageUbcPath";
+        public const string REG_VALUE_IMAGE_OUTPUT_UBC_PATH = "ImageOutputUbcPath";
+
         public const int MAX_WORKING_FOLDER_SAVED = 5;
 
-        public const int HASH_FILE_SIZE = 20;
+        public const int HASH_SIZE = 20;
+        public const int SIGNATURE_SIZE = 40;
         // TODO: confirm the size of the DSA private key
         public const int PRIVATE_KEY_SIZE = 684;
         public const int PRIVATE_KEY_SIZE_2 = 672;
@@ -63,15 +73,23 @@ namespace AliSign
         public const int OFFSET_UBIOS_VERSION = 0x0364;
         public const int OFFSET_UBIOS_PUBLIC_KEY = 0x7f8020;
 
-        public const int MAX_HASH_PATH_COUNT = (OFFSET_HASH_LIST_END_PLUS1 - OFFSET_HASH_LIST_START) / HASH_FILE_SIZE;
+        public const int MAX_HASH_PATH_COUNT = (OFFSET_HASH_LIST_END_PLUS1 - OFFSET_HASH_LIST_START) / HASH_SIZE;
 
         public string registryAppKey;
         public string registryAppSubKey;
         public string registryCompanyName;
 
-        public byte[] RomImage;
+        // Common encripto variables
+        IDigest hashFunction;
+        IDsa signer;
+        // for BIOS sign
+        public byte[] BytesImageBios;
         public int identificationAlignment = 16;
         public bool is1stTime = true;
+        // for Disk sign
+        public byte[] BytesImageDisk;
+        // for UBC sign
+        public byte[] BytesImageUbc;
 
         private void SaveComboSettings(RegistryKey appKey, string keyName, System.Windows.Forms.ComboBox comboBox, int maxCount)
         {
@@ -110,8 +128,9 @@ namespace AliSign
             RegistryKey appKey = Registry.CurrentUser.CreateSubKey(registryAppSubKey);
 
             appKey.SetValue(REG_VALUE_WORKING_PATH_SELECTEDINDEX, comboBoxWorkingFolder.SelectedIndex);
-            appKey.SetValue(REG_VALUE_ROM_IMAGE_INPUT_PATH, textBoxInputImage.Text);
-            appKey.SetValue(REG_VALUE_ROM_IMAGE_OUTPUT_PATH, textBoxOutputImage.Text);
+            appKey.SetValue(REG_VALUE_SIGN_TAB_INDEX, tabControlSign.SelectedIndex);
+            appKey.SetValue(REG_VALUE_IMAGE_BIOS_PATH, textBoxImageBios.Text);
+            appKey.SetValue(REG_VALUE_IMAGE_OUTPUT_BIOS_PATH, textBoxOutputImageBios.Text);
             appKey.SetValue(REG_VALUE_PRIVATE_KEY_PATH, textBoxDsaPrivateKey.Text);
             appKey.SetValue(REG_VALUE_UBIOS_VERSION, textBoxUbiosVersion.Text);
             appKey.SetValue(REG_VALUE_UBIOS_PUBLIC_KEY_PATH, textBoxUbiosPublicKey.Text);
@@ -122,6 +141,12 @@ namespace AliSign
             // 
             SaveComboSettings(appKey, REG_VALUE_WORKING_PATH_LIST, comboBoxWorkingFolder, MAX_WORKING_FOLDER_SAVED);
             SaveListSettings(appKey, REG_VALUE_HASH_PATH_LIST, listBoxHash, MAX_HASH_PATH_COUNT);
+
+            appKey.SetValue(REG_VALUE_IMAGE_DISK_PATH, textBoxImageDisk.Text);
+            appKey.SetValue(REG_VALUE_IMAGE_OUTPUT_DISK_PATH, textBoxOutputImageDisk.Text);
+
+            appKey.SetValue(REG_VALUE_IMAGE_UBC_PATH, textBoxImageUbc.Text);
+            appKey.SetValue(REG_VALUE_IMAGE_OUTPUT_UBC_PATH, textBoxOutputImageUbc.Text);
         }
 
         private void RestoreComboSettings(RegistryKey appKey, string keyName, System.Windows.Forms.ComboBox comboBox, int maxCount)
@@ -161,7 +186,7 @@ namespace AliSign
             // Retrieve Registry keys
             //
             RegistryKey appKey = Registry.CurrentUser.OpenSubKey(registryAppSubKey);
-                if (appKey == null)
+            if (appKey == null)
             {
                 Registry.SetValue("HKEY_CURRENT_USER\\" + registryAppSubKey, REG_VALUE_APP_VERSION, APP_REGISTRY_VERSION);
                 return;
@@ -185,15 +210,21 @@ namespace AliSign
             //
             // Restore controls
             //
-            //comboBoxWorkingFolder.Text = (string)appKey.GetValue(REG_VALUE_WORKING_PATH, "");
             comboBoxWorkingFolder.SelectedIndex = (int)appKey.GetValue(REG_VALUE_WORKING_PATH_SELECTEDINDEX, 0);
-            textBoxInputImage.Text = (string)appKey.GetValue(REG_VALUE_ROM_IMAGE_INPUT_PATH, "");
-            textBoxOutputImage.Text = (string)appKey.GetValue(REG_VALUE_ROM_IMAGE_OUTPUT_PATH, "");
+            tabControlSign.SelectedIndex = (int)appKey.GetValue(REG_VALUE_SIGN_TAB_INDEX, 0);
+            textBoxImageBios.Text = (string)appKey.GetValue(REG_VALUE_IMAGE_BIOS_PATH, "");
+            textBoxOutputImageBios.Text = (string)appKey.GetValue(REG_VALUE_IMAGE_OUTPUT_BIOS_PATH, "");
             textBoxDsaPrivateKey.Text = (string)appKey.GetValue(REG_VALUE_PRIVATE_KEY_PATH, "");
             textBoxUbiosVersion.Text = (string)appKey.GetValue(REG_VALUE_UBIOS_VERSION, "");
             textBoxUbiosPublicKey.Text = (string)appKey.GetValue(REG_VALUE_UBIOS_PUBLIC_KEY_PATH, "");
             textBoxUbcPublicKey.Text = (string)appKey.GetValue(REG_VALUE_UBC_PUBLIC_KEY_PATH, "");
             textBoxBootLoaderPublicKey.Text = (string)appKey.GetValue(REG_VALUE_BOOT_LOADER_PUBLIC_KEY_PATH, "");
+
+            textBoxImageDisk.Text = (string)appKey.GetValue(REG_VALUE_IMAGE_DISK_PATH, "");
+            textBoxOutputImageDisk.Text = (string)appKey.GetValue(REG_VALUE_IMAGE_OUTPUT_DISK_PATH, "");
+
+            textBoxImageUbc.Text = (string)appKey.GetValue(REG_VALUE_IMAGE_UBC_PATH, "");
+            textBoxOutputImageUbc.Text = (string)appKey.GetValue(REG_VALUE_IMAGE_OUTPUT_UBC_PATH, "");
         }
 
         public Form1()
@@ -225,25 +256,25 @@ namespace AliSign
 
         private long searchBytes(byte[] needle)
         {
-            if (RomImage==null)
+            if (BytesImageBios == null)
             {
                 return -1;
             }
             var len = needle.Length;
-            var limit = RomImage.Length - len;
+            var limit = BytesImageBios.Length - len;
             for (var i = 0; i <= limit; i += identificationAlignment)
             {
                 var k = 0;
                 for (; k < len; k++)
                 {
-                    if (needle[k] != RomImage[i + k]) break;
+                    if (needle[k] != BytesImageBios[i + k]) break;
                 }
                 if (k == len) return i;
             }
             return -1;
         }
 
-        private bool isValidImage()
+        private bool isValidImageBios()
         {
             //
             // Validation ADLink identifications
@@ -268,11 +299,11 @@ namespace AliSign
             byte[] validSignature = new byte[] { 0x90, 0x90, 0xe9 };
             //byte[] validSignature = new byte[] { 0x90, 0x90, 0xe8 };
             var len = validSignature.Length;
-            var validSignarueOffset = RomImage.Length - 16;
+            var validSignarueOffset = BytesImageBios.Length - 16;
             var i = 0;
             for (; i < len; i++)
             {
-                if (validSignature[i] != RomImage[i + validSignarueOffset]) break;
+                if (validSignature[i] != BytesImageBios[i + validSignarueOffset]) break;
             }
             if (i < len)
             {
@@ -283,10 +314,10 @@ namespace AliSign
             return true;
         }
 
-        private void enableControls(bool isValid)
+        private void enableControlsBios(bool isValid)
         {
-            textBoxOutputImage.Enabled = isValid;
-            buttonOutputImage.Enabled = isValid;
+            textBoxOutputImageBios.Enabled = isValid;
+            buttonOutputImageBios.Enabled = isValid;
             textBoxDsaPrivateKey.Enabled = isValid;
             buttonDsaPrivateKey.Enabled = isValid;
             textBoxUbiosVersion.Enabled = isValid;
@@ -299,7 +330,7 @@ namespace AliSign
             buttonHashAdd.Enabled = isValid;
             buttonHashRemove.Enabled = isValid;
             listBoxHash.Enabled = isValid;
-            buttonGenerate.Enabled = isValid;
+            buttonSignBios.Enabled = isValid;
         }
 
 
@@ -321,25 +352,25 @@ namespace AliSign
                 this.Location = Properties.Settings.Default.F1Location;
                 this.Size = Properties.Settings.Default.F1Size;
             }
-            
+
             // update title text
             string assemblyVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
             string projectName = System.Reflection.Assembly.GetEntryAssembly().GetName().Name;
             this.Text = projectName + " " + assemblyVersion;
         }
 
-        private void textBoxInputImage_TextChanged(object sender, EventArgs e)
+        private void textBoxImageBios_TextChanged(object sender, EventArgs e)
         {
-            if (File.Exists(textBoxInputImage.Text))
+            if (File.Exists(textBoxImageBios.Text))
             {
                 //
-                // Read Image file to bytes[] RomImage
+                // Read Image file to bytes[] BytesImageBios
                 //
-                RomImage = File.ReadAllBytes(textBoxInputImage.Text);
+                BytesImageBios = File.ReadAllBytes(textBoxImageBios.Text);
                 //
                 // support old project which size is 4MB and the identification is not 16 bytes aligned
                 //
-                //if (RomImage.Length >= 0x800000)
+                //if (BytesImageBios.Length >= 0x800000)
                 //{
                 //    identificationAlignment = 16;
                 //}
@@ -347,15 +378,15 @@ namespace AliSign
                 //{
                 //    identificationAlignment = 1;
                 //}
-                if (textBoxOutputImage.Text.Length == 0)
+                if (textBoxOutputImageBios.Text.Length == 0)
                 {
-                    textBoxOutputImage.Text = textBoxInputImage.Text;
+                    textBoxOutputImageBios.Text = textBoxImageBios.Text;
                 }
-                enableControls(isValidImage());
+                enableControlsBios(isValidImageBios());
             }
             else
             {
-                enableControls(false);
+                enableControlsBios(false);
             }
         }
 
@@ -372,7 +403,7 @@ namespace AliSign
         private void buttonRomImage_Click(object sender, EventArgs e)
         {
             this.openFileDialog1.InitialDirectory = comboBoxWorkingFolder.Text;
-            textBoxInputImage.Text = buttonFilePath_Click(textBoxInputImage.Text);
+            textBoxImageBios.Text = buttonFilePath_Click(textBoxImageBios.Text);
         }
 
         private void buttonDsaPrivateKey_Click(object sender, EventArgs e)
@@ -404,7 +435,7 @@ namespace AliSign
                 foreach (string file in files)
                 {
                     var info = new FileInfo(file);
-                    if (info.Length == HASH_FILE_SIZE)
+                    if (info.Length == HASH_SIZE)
                     {
                         listBoxHash.Items.Add(info.FullName);
                     }
@@ -417,7 +448,7 @@ namespace AliSign
                 if (!String.IsNullOrEmpty(hash_fp))
                 {
                     var info = new FileInfo(hash_fp);
-                    if (info.Length == HASH_FILE_SIZE)
+                    if (info.Length == HASH_SIZE)
                     {
                         listBoxHash.Items.Add(hash_fp);
                     }
@@ -476,14 +507,14 @@ namespace AliSign
                 comboBox.SelectedIndex = index;
             }
 
-            return (index==-1);
+            return (index == -1);
         }
 
         private void resetInputFiles(object sender, EventArgs e)
         {
-            var inputImageSelected = false;
-            textBoxInputImage.Text = string.Empty;
-            textBoxOutputImage.Text = string.Empty;
+            var ImageBiosSelected = false;
+            textBoxImageBios.Text = string.Empty;
+            textBoxOutputImageBios.Text = string.Empty;
             textBoxDsaPrivateKey.Text = string.Empty;
             textBoxUbiosPublicKey.Text = string.Empty;
             textBoxUbcPublicKey.Text = string.Empty;
@@ -496,7 +527,7 @@ namespace AliSign
             foreach (string file in files)
             {
                 var info = new FileInfo(file);
-                if (info.Length == HASH_FILE_SIZE)
+                if (info.Length == HASH_SIZE)
                 {
                     listBoxHash.Items.Add(info.FullName);
                     continue;
@@ -511,8 +542,8 @@ namespace AliSign
                     continue;
                 }
                 if (info.Length == PUBLIC_KEY_SIZE)
-                    {
-                        if (string.IsNullOrEmpty(textBoxUbcPublicKey.Text) && info.Name.Contains("UBC", StringComparison.OrdinalIgnoreCase))
+                {
+                    if (string.IsNullOrEmpty(textBoxUbcPublicKey.Text) && info.Name.Contains("UBC", StringComparison.OrdinalIgnoreCase))
                     {
                         textBoxUbcPublicKey.Text += info.FullName;
                         continue;
@@ -529,14 +560,14 @@ namespace AliSign
                     }
                     continue;
                 }
-                if (!inputImageSelected && info.Length == ROM_FILE_SIZE)
+                if (!ImageBiosSelected && info.Length == ROM_FILE_SIZE)
                 {
-                    RomImage = File.ReadAllBytes(info.FullName);
+                    BytesImageBios = File.ReadAllBytes(info.FullName);
 
-                    if (isValidImage())
+                    if (isValidImageBios())
                     {
-                        textBoxInputImage.Text = info.FullName;
-                        inputImageSelected = true;
+                        textBoxImageBios.Text = info.FullName;
+                        ImageBiosSelected = true;
                     }
                     continue;
                 }
@@ -546,7 +577,7 @@ namespace AliSign
                 textBoxUbiosVersion.Text = DEFAULT_VERSION_STRING;
             }
 
-            enableControls(inputImageSelected);
+            enableControlsBios(ImageBiosSelected);
 
         }
 
@@ -586,70 +617,8 @@ namespace AliSign
             }
         }
 
-        private void buttonGenerate_Click(object sender, EventArgs e)
+        private void textBoxDsaPrivateKey_TextChanged(object sender, EventArgs e)
         {
-            //
-            // 1. patch UBC Public key @ 0x3c (Length 0x194)
-            //
-            byte[] UbcPublicKey;
-            if (!File.Exists(textBoxUbcPublicKey.Text)) { return; }
-            UbcPublicKey = File.ReadAllBytes(textBoxUbcPublicKey.Text);
-            Buffer.BlockCopy(UbcPublicKey, 0, RomImage, OFFSET_UBC_PUBLIC_KEY, UbcPublicKey.Length);
-            //
-            // 2. patch MBR_GPT_BL_PUBLIC_KEY Public key @ 0x1d0 (Length 0x194)
-            //
-            byte[] BootLoaderPublicKey;
-            if (!File.Exists(textBoxBootLoaderPublicKey.Text)) { return; }
-            BootLoaderPublicKey = File.ReadAllBytes(textBoxBootLoaderPublicKey.Text);
-            Buffer.BlockCopy(BootLoaderPublicKey, 0, RomImage, OFFSET_BOOT_LOADER_PUBLIC_KEY, BootLoaderPublicKey.Length);
-            //
-            // 3. patch UBIOS version string @ 0x364 (length 0x18)
-            //
-            byte[] VersionString = new byte[0x18];
-            byte[] VersionStringInput = Encoding.ASCII.GetBytes(textBoxUbiosVersion.Text);
-            // copy input to target array
-            Buffer.BlockCopy(VersionStringInput, 0, VersionString, 0, VersionStringInput.Length);
-            // override to Image buffer
-            Buffer.BlockCopy(VersionString, 0, RomImage, OFFSET_UBIOS_VERSION, VersionString.Length);
-            //
-            // 4. patch Hash list @OFFSET_HASH_LIST_START ~ OFFSET_HASH_LIST_END_PLUS1)
-            //
-            Array.Clear(RomImage, OFFSET_HASH_LIST_START, OFFSET_HASH_LIST_END_PLUS1 - OFFSET_HASH_LIST_START);
-            byte[] hash;
-            int offsetRomImage = OFFSET_HASH_LIST_START;
-            foreach (string hashFile in listBoxHash.Items)
-            {
-                if (!File.Exists(hashFile)) { return; }
-                hash = File.ReadAllBytes(hashFile);
-                Buffer.BlockCopy(hash, 0, RomImage, offsetRomImage, hash.Length);
-                offsetRomImage+= hash.Length;
-                // ignore hash files after offset OFFSET_HASH_LIST_END_PLUS1
-                if (offsetRomImage > OFFSET_HASH_LIST_END_PLUS1 - hash.Length) { break; }
-            }
-            //
-            // 5. patch UBIOS public key and it's double word - byte checksum to OFFSET_UBIOS_PUBLIC_KEY
-            //
-            byte[] UbiosPublicKey;
-            int checksum = 0;
-            if (!File.Exists(textBoxUbiosPublicKey.Text)) { return; }
-            UbiosPublicKey = File.ReadAllBytes(textBoxUbiosPublicKey.Text);
-            for (int i = 0; i < UbiosPublicKey.Length; i++)
-            {
-                RomImage[OFFSET_UBIOS_PUBLIC_KEY + i] = UbiosPublicKey[i];
-                checksum += UbiosPublicKey[i];
-            }
-            // override checksum after UBIOS Public key
-            byte[] bytes = BitConverter.GetBytes(checksum);
-            Buffer.BlockCopy(bytes, 0, RomImage, OFFSET_UBIOS_PUBLIC_KEY + UbiosPublicKey.Length, sizeof(int));
-            //
-            // 6. get hash and sign the blob from offset 0x3c~EOF of the image.
-            //
-            // Dotnet's DSA class doesn't support loading DSA private keys refer to: https://www.reddit.com/r/dotnetcore/comments/tg5pqg/creating_dsa_signature_with_private_key/
-            // Switch to BouncyCastle library
-            //
-            // Generate a new DSA private key
-
-            // Read the PEM file into a string
             string pem = File.ReadAllText(textBoxDsaPrivateKey.Text);
 
             // Create a PemReader to parse the PEM file
@@ -662,23 +631,17 @@ namespace AliSign
             DsaPrivateKeyParameters dsaPrivateKey = (DsaPrivateKeyParameters)keyPair.Private;
 
             // Create a SHA1 hash function
-            IDigest hashFunction = new Sha1Digest();
-
-            // Compute the hash of the blob
-            hashFunction.BlockUpdate(RomImage, 0x3c, RomImage.Length - 0x3c);
-            hash = new byte[hashFunction.GetDigestSize()];
-            hashFunction.DoFinal(hash, 0);
+            hashFunction = new Sha1Digest();
 
             // Create a DSA signer object
-            IDsa signer = new DsaSigner();
+            signer = new DsaSigner();
 
             // Initialize the signer with the DSA private key
             signer.Init(true, dsaPrivateKey);
+        }
 
-            // Compute the signature for the hash
-            Org.BouncyCastle.Math.BigInteger[] bigIntArray = signer.GenerateSignature(hash);
-
-            // Convert the signature to an byte array
+        private byte[] bigIntegersToBytes(Org.BouncyCastle.Math.BigInteger[] bigIntArray)
+        {
             byte[][] byteArrays = new byte[bigIntArray.Length][];
             for (int i = 0; i < bigIntArray.Length; i++)
             {
@@ -695,23 +658,271 @@ namespace AliSign
                 currentIndex += array.Length;
             }
 
+            return mergedArray;
+        }
+
+        private void buttonSignBios_Click(object sender, EventArgs e)
+        {
+            //
+            // 1. patch UBC Public key @ 0x3c (Length 0x194)
+            //
+            byte[] UbcPublicKey;
+            if (!File.Exists(textBoxUbcPublicKey.Text)) { return; }
+            UbcPublicKey = File.ReadAllBytes(textBoxUbcPublicKey.Text);
+            Buffer.BlockCopy(UbcPublicKey, 0, BytesImageBios, OFFSET_UBC_PUBLIC_KEY, UbcPublicKey.Length);
+            //
+            // 2. patch MBR_GPT_BL_PUBLIC_KEY Public key @ 0x1d0 (Length 0x194)
+            //
+            byte[] BootLoaderPublicKey;
+            if (!File.Exists(textBoxBootLoaderPublicKey.Text)) { return; }
+            BootLoaderPublicKey = File.ReadAllBytes(textBoxBootLoaderPublicKey.Text);
+            Buffer.BlockCopy(BootLoaderPublicKey, 0, BytesImageBios, OFFSET_BOOT_LOADER_PUBLIC_KEY, BootLoaderPublicKey.Length);
+            //
+            // 3. patch UBIOS version string @ 0x364 (length 0x18)
+            //
+            byte[] VersionString = new byte[0x18];
+            byte[] VersionStringInput = Encoding.ASCII.GetBytes(textBoxUbiosVersion.Text);
+            // copy input to target array
+            Buffer.BlockCopy(VersionStringInput, 0, VersionString, 0, VersionStringInput.Length);
+            // override to Image buffer
+            Buffer.BlockCopy(VersionString, 0, BytesImageBios, OFFSET_UBIOS_VERSION, VersionString.Length);
+            //
+            // 4. patch Hash list @OFFSET_HASH_LIST_START ~ OFFSET_HASH_LIST_END_PLUS1)
+            //
+            Array.Clear(BytesImageBios, OFFSET_HASH_LIST_START, OFFSET_HASH_LIST_END_PLUS1 - OFFSET_HASH_LIST_START);
+            byte[] hash;
+            int offsetRomImage = OFFSET_HASH_LIST_START;
+            foreach (string hashFile in listBoxHash.Items)
+            {
+                if (!File.Exists(hashFile)) { return; }
+                hash = File.ReadAllBytes(hashFile);
+                Buffer.BlockCopy(hash, 0, BytesImageBios, offsetRomImage, hash.Length);
+                offsetRomImage += hash.Length;
+                // ignore hash files after offset OFFSET_HASH_LIST_END_PLUS1
+                if (offsetRomImage > OFFSET_HASH_LIST_END_PLUS1 - hash.Length) { break; }
+            }
+            //
+            // 5. patch UBIOS public key and it's double word - byte checksum to OFFSET_UBIOS_PUBLIC_KEY
+            //
+            byte[] UbiosPublicKey;
+            int checksum = 0;
+            if (!File.Exists(textBoxUbiosPublicKey.Text)) { return; }
+            UbiosPublicKey = File.ReadAllBytes(textBoxUbiosPublicKey.Text);
+            for (int i = 0; i < UbiosPublicKey.Length; i++)
+            {
+                BytesImageBios[OFFSET_UBIOS_PUBLIC_KEY + i] = UbiosPublicKey[i];
+                checksum += UbiosPublicKey[i];
+            }
+            // override checksum after UBIOS Public key
+            byte[] bytes = BitConverter.GetBytes(checksum);
+            Buffer.BlockCopy(bytes, 0, BytesImageBios, OFFSET_UBIOS_PUBLIC_KEY + UbiosPublicKey.Length, sizeof(int));
+            //
+            // 6. get hash and sign the blob from offset 0x3c~EOF of the image.
+            //
+            // Dotnet's DSA class doesn't support loading DSA private keys refer to: https://www.reddit.com/r/dotnetcore/comments/tg5pqg/creating_dsa_signature_with_private_key/
+            // Switch to BouncyCastle library
+
+            // Compute the hash of the blob
+            hashFunction.BlockUpdate(BytesImageBios, 0x3c, BytesImageBios.Length - 0x3c);
+            hash = new byte[hashFunction.GetDigestSize()];
+            hashFunction.DoFinal(hash, 0);
+
+            // Convert the signature to an byte array
+            byte[] signature = bigIntegersToBytes(signer.GenerateSignature(hash));
+
             // patch signature & hash to the head of ROM Image
-            Buffer.BlockCopy(mergedArray, 0, RomImage, 0, mergedArray.Length); // length = 0x28
-            Buffer.BlockCopy(hash, 0, RomImage, mergedArray.Length, hash.Length); // length = 0x14
+            Buffer.BlockCopy(signature, 0, BytesImageBios, 0, signature.Length); // length = 0x28
+            Buffer.BlockCopy(hash, 0, BytesImageBios, signature.Length, hash.Length); // length = 0x14
             //
             //  7. Write to output file
             //
             try
             {
-                MessageBox.Show("Write to " + textBoxOutputImage.Text);
-                File.WriteAllBytes(textBoxOutputImage.Text, RomImage);
+                MessageBox.Show("Write to " + textBoxOutputImageBios.Text);
+                File.WriteAllBytes(textBoxOutputImageBios.Text, BytesImageBios);
             }
-            catch( IOException ex)
+            catch (IOException ex)
+            {
+                MessageBox.Show("An error occurred while writing to the file: " + ex.Message);
+            }
+        }
+
+        private void buttonImageDisk_Click(object sender, EventArgs e)
+        {
+            textBoxImageDisk.Text = buttonFilePath_Click(textBoxImageDisk.Text);
+        }
+
+        private void buttonOutputImageDisk_Click(object sender, EventArgs e)
+        {
+            textBoxOutputImageDisk.Text = buttonFilePath_Click(textBoxOutputImageDisk.Text);
+        }
+        //
+        // constants for singing disk
+        //
+        public const int SIZE_DISK_SECTOR = 512;
+
+        private void enableControlsDisk(bool isValid)
+        {
+            textBoxOutputImageDisk.Enabled = isValid;
+            buttonOutputImageDisk.Enabled = isValid;
+            buttonSignDisk.Enabled = isValid;
+        }
+
+        private bool isValidImageDisk()
+        {
+            //
+            // is it a sectors snapshot?
+            //
+            if (BytesImageDisk.Length % SIZE_DISK_SECTOR != 0)
+            {
+                MessageBox.Show("Not a valid disk sectors' image.");
+                return false;
+            }
+            return true;
+        }
+
+        private void textBoxImageDisk_TextChanged(object sender, EventArgs e)
+        {
+            if (File.Exists(textBoxImageDisk.Text))
+            {
+                //
+                // Read Image file to bytes[] BytesImageDisk
+                //
+                BytesImageDisk = File.ReadAllBytes(textBoxImageDisk.Text);
+                //
+                // set the default output image file name
+                //
+                if (textBoxOutputImageDisk.Text.Length == 0)
+                {
+                    textBoxOutputImageDisk.Text = textBoxImageDisk.Text;
+                }
+                enableControlsDisk(isValidImageDisk());
+            }
+            else
+            {
+                enableControlsDisk(false);
+            }
+        }
+
+        // Verify:
+        //  a) 0x000 to 0x177 : (MBR Code, GRUB Stage 1)
+        //  b) 0x1B4 to 0x1FF : (Boot Loader Sectors, Partition Table and Disk Signature)
+        // No Verification: 
+        //  a) 0x178 to 0x1B3 : Hash data and signature area
+
+        private void buttonSignDisk_Click(object sender, EventArgs e)
+        {
+            byte[] signature;
+            byte[] hash;
+            //
+            // 1. sign MBR
+            // 
+            byte[] sector1 = BytesImageDisk[0..(SIZE_DISK_SECTOR - 1)]; // 1st sector
+
+            short BL_Ss = 1; // GRUB Boot Loader Start Sector; 
+            Buffer.BlockCopy(BitConverter.GetBytes(BL_Ss), 0, sector1, 0x1b4, sizeof(short));
+
+            short BL_Si = (short)(BitConverter.ToInt16(sector1, 0x1c6) - 2); // BL Si = GRUB Boot Loader Sector Size
+            Buffer.BlockCopy(BitConverter.GetBytes(BL_Ss), 0, sector1, 0x1b6, sizeof(short));
+            // assemble a blobMbr
+            byte[] blobMbr = BytesImageDisk[0..0x177].Concat(sector1[0x1b4..]).ToArray();
+
+            // Compute the hash of the blobMbr
+            hashFunction.BlockUpdate(blobMbr, 0, blobMbr.Length);
+            hash = new byte[hashFunction.GetDigestSize()];
+            hashFunction.DoFinal(hash, 0);
+            // Convert the signature to an byte array
+            signature = bigIntegersToBytes(signer.GenerateSignature(hash));
+
+            // patch signature & hash
+            Buffer.BlockCopy(signature, 0, BytesImageDisk, 0x178, signature.Length); // length = 0x28
+            Buffer.BlockCopy(hash, 0, BytesImageDisk, 0x178 + signature.Length, hash.Length); // length = 0x14
+            //
+            // 2. sign GRUB
+            //
+            byte[] blobGrub = BytesImageDisk[SIZE_DISK_SECTOR..(BytesImageDisk.Length - SIZE_DISK_SECTOR)]; // 2nd~eof-1 sector sectors
+
+            // Compute the hash of the blobGrub
+            hashFunction.BlockUpdate(blobGrub, 0, blobGrub.Length);
+            hash = new byte[hashFunction.GetDigestSize()];
+            hashFunction.DoFinal(hash, 0);
+            // Convert the signature to an byte array
+            signature = bigIntegersToBytes(signer.GenerateSignature(hash));
+
+            // patch signature & hash
+            Buffer.BlockCopy(hash, 0, BytesImageDisk, BytesImageDisk.Length - SIZE_DISK_SECTOR, hash.Length); // length = 0x14
+            Buffer.BlockCopy(signature, 0, BytesImageDisk, BytesImageDisk.Length - SIZE_DISK_SECTOR + hash.Length, signature.Length); // length = 0x28
+            //
+            //  3. Write to output file
+            //
+            try
+            {
+                MessageBox.Show("Write to " + textBoxOutputImageDisk.Text);
+                File.WriteAllBytes(textBoxOutputImageDisk.Text, BytesImageDisk);
+            }
+            catch (IOException ex)
+            {
+                MessageBox.Show("An error occurred while writing to the file: " + ex.Message);
+            }
+        }
+
+        private void buttonImageUbc_Click(object sender, EventArgs e)
+        {
+            textBoxImageUbc.Text = buttonFilePath_Click(textBoxImageUbc.Text);
+        }
+
+        private void buttonOutputImageUbc_Click(object sender, EventArgs e)
+        {
+            textBoxOutputImageUbc.Text = buttonFilePath_Click(textBoxOutputImageUbc.Text);
+        }
+
+        private void textBoxImageUbc_TextChanged(object sender, EventArgs e)
+        {
+            if (File.Exists(textBoxImageUbc.Text))
+            {
+                //
+                // Read Image file to bytes[] BytesImageUbc
+                //
+                BytesImageUbc = File.ReadAllBytes(textBoxImageUbc.Text);
+                if (textBoxOutputImageUbc.Text.Length == 0)
+                {
+                    textBoxOutputImageUbc.Text = textBoxImageUbc.Text;
+                }
+                //enableControlsUbc(isValidImageUbc());
+            }
+            else
+            {
+                //enableControlsUbc(false);
+            }
+        }
+
+        private void buttonSignUbc_Click(object sender, EventArgs e)
+        {
+            byte[] blobUbc = BytesImageUbc[0..(BytesImageUbc.Length-(HASH_SIZE+SIGNATURE_SIZE))];
+
+            // Compute the hash of the blobUbc
+            hashFunction.BlockUpdate(blobUbc, 0, blobUbc.Length);
+            byte[] hash = new byte[hashFunction.GetDigestSize()];
+            hashFunction.DoFinal(hash, 0);
+            // Convert the signature to an byte array
+            byte[] signature = bigIntegersToBytes(signer.GenerateSignature(hash));
+
+            // patch signature & hash
+            Buffer.BlockCopy(hash, 0, BytesImageUbc, BytesImageUbc.Length - (hash.Length + signature.Length), hash.Length); // length = 0x14
+            Buffer.BlockCopy(signature, 0, BytesImageUbc, BytesImageUbc.Length - signature.Length, signature.Length); // length = 0x28
+            //
+            //  3. Write to output file
+            //
+            try
+            {
+                MessageBox.Show("Write to " + textBoxOutputImageUbc.Text);
+                File.WriteAllBytes(textBoxOutputImageUbc.Text, BytesImageUbc);
+            }
+            catch (IOException ex)
             {
                 MessageBox.Show("An error occurred while writing to the file: " + ex.Message);
             }
         }
 
     }
-
 }

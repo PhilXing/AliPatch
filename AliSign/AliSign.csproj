@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
-    <ApplicationIcon>patch_icon_132102.ico</ApplicationIcon>
+    <ApplicationIcon>signature.ico</ApplicationIcon>
     <AssemblyVersion>0.0.0.1</AssemblyVersion>
     <Company>ADLink</Company>
   </PropertyGroup>
@@ -31,7 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="patch_icon_132102.ico" />
+    <Content Include="signature.ico" />
   </ItemGroup>
 
   <ItemGroup>
