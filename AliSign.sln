@@ -5,6 +5,8 @@ VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AliSign", "AliSign\AliSign.csproj", "{E654B7A0-3F6C-4DDA-B68A-A0854DA00123}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup", "Setup\Setup.vdproj", "{FEA4C237-1CF6-4883-95D6-42DCE458D5C9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,9 @@ Global
 		{E654B7A0-3F6C-4DDA-B68A-A0854DA00123}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E654B7A0-3F6C-4DDA-B68A-A0854DA00123}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E654B7A0-3F6C-4DDA-B68A-A0854DA00123}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FEA4C237-1CF6-4883-95D6-42DCE458D5C9}.Debug|Any CPU.ActiveCfg = Debug
+		{FEA4C237-1CF6-4883-95D6-42DCE458D5C9}.Release|Any CPU.ActiveCfg = Release
+		{FEA4C237-1CF6-4883-95D6-42DCE458D5C9}.Release|Any CPU.Build.0 = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

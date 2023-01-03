@@ -54,9 +54,9 @@
             this.listBoxHash = new System.Windows.Forms.ListBox();
             this.buttonHashAdd = new System.Windows.Forms.Button();
             this.buttonHashRemove = new System.Windows.Forms.Button();
-            this.labelOutputImageBios = new System.Windows.Forms.Label();
-            this.buttonOutputImageBios = new System.Windows.Forms.Button();
-            this.textBoxOutputImageBios = new System.Windows.Forms.TextBox();
+            this.labelSignedImageBios = new System.Windows.Forms.Label();
+            this.buttonSignedImageBios = new System.Windows.Forms.Button();
+            this.textBoxSignedImageBios = new System.Windows.Forms.TextBox();
             this.buttonSignBios = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
@@ -74,9 +74,9 @@
             this.labelImageDisk = new System.Windows.Forms.Label();
             this.textBoxImageDisk = new System.Windows.Forms.TextBox();
             this.buttonImageDisk = new System.Windows.Forms.Button();
-            this.labelOutputImageDisk = new System.Windows.Forms.Label();
-            this.textBoxOutputImageDisk = new System.Windows.Forms.TextBox();
-            this.buttonOutputImageDisk = new System.Windows.Forms.Button();
+            this.labelSignedImageDisk = new System.Windows.Forms.Label();
+            this.textBoxSignedImageDisk = new System.Windows.Forms.TextBox();
+            this.buttonSignedImageDisk = new System.Windows.Forms.Button();
             this.buttonSignDisk = new System.Windows.Forms.Button();
             this.tabPageUbc = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel10 = new System.Windows.Forms.TableLayoutPanel();
@@ -84,9 +84,9 @@
             this.labelImageUbc = new System.Windows.Forms.Label();
             this.textBoxImageUbc = new System.Windows.Forms.TextBox();
             this.buttonImageUbc = new System.Windows.Forms.Button();
-            this.labelOutputImageUbc = new System.Windows.Forms.Label();
-            this.textBoxOutputImageUbc = new System.Windows.Forms.TextBox();
-            this.buttonOutputImageUbc = new System.Windows.Forms.Button();
+            this.labelSignedImageUbc = new System.Windows.Forms.Label();
+            this.textBoxSignedImageUbc = new System.Windows.Forms.TextBox();
+            this.buttonSignedImageUbc = new System.Windows.Forms.Button();
             this.buttonSignUbc = new System.Windows.Forms.Button();
             this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel7 = new System.Windows.Forms.TableLayoutPanel();
@@ -124,6 +124,8 @@
             // comboBoxWorkingFolder
             // 
             this.comboBoxWorkingFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBoxWorkingFolder.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.comboBoxWorkingFolder.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.FileSystem;
             this.comboBoxWorkingFolder.FormattingEnabled = true;
             this.comboBoxWorkingFolder.Location = new System.Drawing.Point(123, 7);
             this.comboBoxWorkingFolder.Name = "comboBoxWorkingFolder";
@@ -131,6 +133,7 @@
             this.comboBoxWorkingFolder.TabIndex = 1;
             this.comboBoxWorkingFolder.SelectedIndexChanged += new System.EventHandler(this.comboBoxWorkingFolder_SelectedIndexChanged);
             this.comboBoxWorkingFolder.Leave += new System.EventHandler(this.comboBoxWorkingFolder_Leave);
+            this.comboBoxWorkingFolder.Validating += new System.ComponentModel.CancelEventHandler(this.comboBoxWorkingFolder_Validating);
             // 
             // buttonWorkingFolder
             // 
@@ -157,6 +160,8 @@
             // textBoxImageBios
             // 
             this.textBoxImageBios.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxImageBios.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.textBoxImageBios.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.FileSystem;
             this.textBoxImageBios.Location = new System.Drawing.Point(153, 10);
             this.textBoxImageBios.Name = "textBoxImageBios";
             this.textBoxImageBios.Size = new System.Drawing.Size(171, 23);
@@ -188,6 +193,8 @@
             // textBoxDsaPrivateKey
             // 
             this.textBoxDsaPrivateKey.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxDsaPrivateKey.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.textBoxDsaPrivateKey.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.FileSystem;
             this.textBoxDsaPrivateKey.Enabled = false;
             this.textBoxDsaPrivateKey.Location = new System.Drawing.Point(123, 44);
             this.textBoxDsaPrivateKey.Name = "textBoxDsaPrivateKey";
@@ -239,6 +246,8 @@
             // textBoxUbiosPublicKey
             // 
             this.textBoxUbiosPublicKey.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxUbiosPublicKey.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.textBoxUbiosPublicKey.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.FileSystem;
             this.textBoxUbiosPublicKey.Enabled = false;
             this.textBoxUbiosPublicKey.Location = new System.Drawing.Point(153, 139);
             this.textBoxUbiosPublicKey.Name = "textBoxUbiosPublicKey";
@@ -271,6 +280,8 @@
             // textBoxBootLoaderPublicKey
             // 
             this.textBoxBootLoaderPublicKey.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxBootLoaderPublicKey.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.textBoxBootLoaderPublicKey.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.FileSystem;
             this.textBoxBootLoaderPublicKey.Enabled = false;
             this.textBoxBootLoaderPublicKey.Location = new System.Drawing.Point(153, 226);
             this.textBoxBootLoaderPublicKey.Name = "textBoxBootLoaderPublicKey";
@@ -338,36 +349,38 @@
             this.buttonHashRemove.UseVisualStyleBackColor = true;
             this.buttonHashRemove.Click += new System.EventHandler(this.buttonHashRemove_Click);
             // 
-            // labelOutputImageBios
+            // labelSignedImageBios
             // 
-            this.labelOutputImageBios.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.labelOutputImageBios.AutoSize = true;
-            this.labelOutputImageBios.Location = new System.Drawing.Point(61, 57);
-            this.labelOutputImageBios.Name = "labelOutputImageBios";
-            this.labelOutputImageBios.Size = new System.Drawing.Size(86, 15);
-            this.labelOutputImageBios.TabIndex = 6;
-            this.labelOutputImageBios.Text = "Output Image";
+            this.labelSignedImageBios.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.labelSignedImageBios.AutoSize = true;
+            this.labelSignedImageBios.Location = new System.Drawing.Point(61, 57);
+            this.labelSignedImageBios.Name = "labelSignedImageBios";
+            this.labelSignedImageBios.Size = new System.Drawing.Size(86, 15);
+            this.labelSignedImageBios.TabIndex = 6;
+            this.labelSignedImageBios.Text = "Output Image";
             // 
-            // buttonOutputImageBios
+            // buttonSignedImageBios
             // 
-            this.buttonOutputImageBios.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.buttonOutputImageBios.Enabled = false;
-            this.buttonOutputImageBios.Font = new System.Drawing.Font("PMingLiU", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.buttonOutputImageBios.Location = new System.Drawing.Point(330, 46);
-            this.buttonOutputImageBios.Name = "buttonOutputImageBios";
-            this.buttonOutputImageBios.Size = new System.Drawing.Size(74, 37);
-            this.buttonOutputImageBios.TabIndex = 8;
-            this.buttonOutputImageBios.Text = "...";
-            this.buttonOutputImageBios.UseVisualStyleBackColor = true;
+            this.buttonSignedImageBios.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonSignedImageBios.Enabled = false;
+            this.buttonSignedImageBios.Font = new System.Drawing.Font("PMingLiU", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.buttonSignedImageBios.Location = new System.Drawing.Point(330, 46);
+            this.buttonSignedImageBios.Name = "buttonSignedImageBios";
+            this.buttonSignedImageBios.Size = new System.Drawing.Size(74, 37);
+            this.buttonSignedImageBios.TabIndex = 8;
+            this.buttonSignedImageBios.Text = "...";
+            this.buttonSignedImageBios.UseVisualStyleBackColor = true;
             // 
-            // textBoxOutputImageBios
+            // textBoxSignedImageBios
             // 
-            this.textBoxOutputImageBios.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxOutputImageBios.Enabled = false;
-            this.textBoxOutputImageBios.Location = new System.Drawing.Point(153, 53);
-            this.textBoxOutputImageBios.Name = "textBoxOutputImageBios";
-            this.textBoxOutputImageBios.Size = new System.Drawing.Size(171, 23);
-            this.textBoxOutputImageBios.TabIndex = 7;
+            this.textBoxSignedImageBios.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxSignedImageBios.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.textBoxSignedImageBios.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.FileSystem;
+            this.textBoxSignedImageBios.Enabled = false;
+            this.textBoxSignedImageBios.Location = new System.Drawing.Point(153, 53);
+            this.textBoxSignedImageBios.Name = "textBoxSignedImageBios";
+            this.textBoxSignedImageBios.Size = new System.Drawing.Size(171, 23);
+            this.textBoxSignedImageBios.TabIndex = 7;
             // 
             // buttonSignBios
             // 
@@ -422,9 +435,9 @@
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
             this.tableLayoutPanel3.Controls.Add(this.labelImageBios, 0, 0);
-            this.tableLayoutPanel3.Controls.Add(this.buttonOutputImageBios, 2, 1);
-            this.tableLayoutPanel3.Controls.Add(this.labelOutputImageBios, 0, 1);
-            this.tableLayoutPanel3.Controls.Add(this.textBoxOutputImageBios, 1, 1);
+            this.tableLayoutPanel3.Controls.Add(this.buttonSignedImageBios, 2, 1);
+            this.tableLayoutPanel3.Controls.Add(this.labelSignedImageBios, 0, 1);
+            this.tableLayoutPanel3.Controls.Add(this.textBoxSignedImageBios, 1, 1);
             this.tableLayoutPanel3.Controls.Add(this.buttonBootLoaderPublicKey, 2, 5);
             this.tableLayoutPanel3.Controls.Add(this.textBoxBootLoaderPublicKey, 1, 5);
             this.tableLayoutPanel3.Controls.Add(this.labelBootLoaderPublicKey, 0, 5);
@@ -456,6 +469,8 @@
             // textBoxUbcPublicKey
             // 
             this.textBoxUbcPublicKey.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxUbcPublicKey.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.textBoxUbcPublicKey.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.FileSystem;
             this.textBoxUbcPublicKey.Enabled = false;
             this.textBoxUbcPublicKey.Location = new System.Drawing.Point(153, 182);
             this.textBoxUbcPublicKey.Name = "textBoxUbcPublicKey";
@@ -577,9 +592,9 @@
             this.tableLayoutPanel9.Controls.Add(this.labelImageDisk, 0, 0);
             this.tableLayoutPanel9.Controls.Add(this.textBoxImageDisk, 1, 0);
             this.tableLayoutPanel9.Controls.Add(this.buttonImageDisk, 2, 0);
-            this.tableLayoutPanel9.Controls.Add(this.labelOutputImageDisk, 0, 1);
-            this.tableLayoutPanel9.Controls.Add(this.textBoxOutputImageDisk, 1, 1);
-            this.tableLayoutPanel9.Controls.Add(this.buttonOutputImageDisk, 2, 1);
+            this.tableLayoutPanel9.Controls.Add(this.labelSignedImageDisk, 0, 1);
+            this.tableLayoutPanel9.Controls.Add(this.textBoxSignedImageDisk, 1, 1);
+            this.tableLayoutPanel9.Controls.Add(this.buttonSignedImageDisk, 2, 1);
             this.tableLayoutPanel9.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel9.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel9.Name = "tableLayoutPanel9";
@@ -602,6 +617,8 @@
             // textBoxImageDisk
             // 
             this.textBoxImageDisk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxImageDisk.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.textBoxImageDisk.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.FileSystem;
             this.textBoxImageDisk.Location = new System.Drawing.Point(123, 8);
             this.textBoxImageDisk.Name = "textBoxImageDisk";
             this.textBoxImageDisk.Size = new System.Drawing.Size(552, 23);
@@ -620,35 +637,37 @@
             this.buttonImageDisk.UseVisualStyleBackColor = true;
             this.buttonImageDisk.Click += new System.EventHandler(this.buttonImageDisk_Click);
             // 
-            // labelOutputImageDisk
+            // labelSignedImageDisk
             // 
-            this.labelOutputImageDisk.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.labelOutputImageDisk.AutoSize = true;
-            this.labelOutputImageDisk.Location = new System.Drawing.Point(31, 54);
-            this.labelOutputImageDisk.Name = "labelOutputImageDisk";
-            this.labelOutputImageDisk.Size = new System.Drawing.Size(86, 15);
-            this.labelOutputImageDisk.TabIndex = 3;
-            this.labelOutputImageDisk.Text = "Output Image";
+            this.labelSignedImageDisk.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.labelSignedImageDisk.AutoSize = true;
+            this.labelSignedImageDisk.Location = new System.Drawing.Point(31, 54);
+            this.labelSignedImageDisk.Name = "labelSignedImageDisk";
+            this.labelSignedImageDisk.Size = new System.Drawing.Size(86, 15);
+            this.labelSignedImageDisk.TabIndex = 3;
+            this.labelSignedImageDisk.Text = "Output Image";
             // 
-            // textBoxOutputImageDisk
+            // textBoxSignedImageDisk
             // 
-            this.textBoxOutputImageDisk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxOutputImageDisk.Location = new System.Drawing.Point(123, 50);
-            this.textBoxOutputImageDisk.Name = "textBoxOutputImageDisk";
-            this.textBoxOutputImageDisk.Size = new System.Drawing.Size(552, 23);
-            this.textBoxOutputImageDisk.TabIndex = 4;
+            this.textBoxSignedImageDisk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxSignedImageDisk.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.textBoxSignedImageDisk.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.FileSystem;
+            this.textBoxSignedImageDisk.Location = new System.Drawing.Point(123, 50);
+            this.textBoxSignedImageDisk.Name = "textBoxSignedImageDisk";
+            this.textBoxSignedImageDisk.Size = new System.Drawing.Size(552, 23);
+            this.textBoxSignedImageDisk.TabIndex = 4;
             // 
-            // buttonOutputImageDisk
+            // buttonSignedImageDisk
             // 
-            this.buttonOutputImageDisk.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.buttonOutputImageDisk.Font = new System.Drawing.Font("PMingLiU", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.buttonOutputImageDisk.Location = new System.Drawing.Point(681, 43);
-            this.buttonOutputImageDisk.Name = "buttonOutputImageDisk";
-            this.buttonOutputImageDisk.Size = new System.Drawing.Size(74, 38);
-            this.buttonOutputImageDisk.TabIndex = 5;
-            this.buttonOutputImageDisk.Text = "...";
-            this.buttonOutputImageDisk.UseVisualStyleBackColor = true;
-            this.buttonOutputImageDisk.Click += new System.EventHandler(this.buttonOutputImageDisk_Click);
+            this.buttonSignedImageDisk.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonSignedImageDisk.Font = new System.Drawing.Font("PMingLiU", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.buttonSignedImageDisk.Location = new System.Drawing.Point(681, 43);
+            this.buttonSignedImageDisk.Name = "buttonSignedImageDisk";
+            this.buttonSignedImageDisk.Size = new System.Drawing.Size(74, 38);
+            this.buttonSignedImageDisk.TabIndex = 5;
+            this.buttonSignedImageDisk.Text = "...";
+            this.buttonSignedImageDisk.UseVisualStyleBackColor = true;
+            this.buttonSignedImageDisk.Click += new System.EventHandler(this.buttonSignedImageDisk_Click);
             // 
             // buttonSignDisk
             // 
@@ -696,9 +715,9 @@
             this.tableLayoutPanel11.Controls.Add(this.labelImageUbc, 0, 0);
             this.tableLayoutPanel11.Controls.Add(this.textBoxImageUbc, 1, 0);
             this.tableLayoutPanel11.Controls.Add(this.buttonImageUbc, 2, 0);
-            this.tableLayoutPanel11.Controls.Add(this.labelOutputImageUbc, 0, 1);
-            this.tableLayoutPanel11.Controls.Add(this.textBoxOutputImageUbc, 1, 1);
-            this.tableLayoutPanel11.Controls.Add(this.buttonOutputImageUbc, 2, 1);
+            this.tableLayoutPanel11.Controls.Add(this.labelSignedImageUbc, 0, 1);
+            this.tableLayoutPanel11.Controls.Add(this.textBoxSignedImageUbc, 1, 1);
+            this.tableLayoutPanel11.Controls.Add(this.buttonSignedImageUbc, 2, 1);
             this.tableLayoutPanel11.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel11.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel11.Name = "tableLayoutPanel11";
@@ -721,6 +740,8 @@
             // textBoxImageUbc
             // 
             this.textBoxImageUbc.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxImageUbc.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.textBoxImageUbc.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.FileSystem;
             this.textBoxImageUbc.Location = new System.Drawing.Point(123, 8);
             this.textBoxImageUbc.Name = "textBoxImageUbc";
             this.textBoxImageUbc.Size = new System.Drawing.Size(558, 23);
@@ -739,35 +760,37 @@
             this.buttonImageUbc.UseVisualStyleBackColor = true;
             this.buttonImageUbc.Click += new System.EventHandler(this.buttonImageUbc_Click);
             // 
-            // labelOutputImageUbc
+            // labelSignedImageUbc
             // 
-            this.labelOutputImageUbc.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.labelOutputImageUbc.AutoSize = true;
-            this.labelOutputImageUbc.Location = new System.Drawing.Point(31, 54);
-            this.labelOutputImageUbc.Name = "labelOutputImageUbc";
-            this.labelOutputImageUbc.Size = new System.Drawing.Size(86, 15);
-            this.labelOutputImageUbc.TabIndex = 3;
-            this.labelOutputImageUbc.Text = "Output Image";
+            this.labelSignedImageUbc.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.labelSignedImageUbc.AutoSize = true;
+            this.labelSignedImageUbc.Location = new System.Drawing.Point(31, 54);
+            this.labelSignedImageUbc.Name = "labelSignedImageUbc";
+            this.labelSignedImageUbc.Size = new System.Drawing.Size(86, 15);
+            this.labelSignedImageUbc.TabIndex = 3;
+            this.labelSignedImageUbc.Text = "Output Image";
             // 
-            // textBoxOutputImageUbc
+            // textBoxSignedImageUbc
             // 
-            this.textBoxOutputImageUbc.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxOutputImageUbc.Location = new System.Drawing.Point(123, 50);
-            this.textBoxOutputImageUbc.Name = "textBoxOutputImageUbc";
-            this.textBoxOutputImageUbc.Size = new System.Drawing.Size(558, 23);
-            this.textBoxOutputImageUbc.TabIndex = 4;
+            this.textBoxSignedImageUbc.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxSignedImageUbc.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.textBoxSignedImageUbc.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.FileSystem;
+            this.textBoxSignedImageUbc.Location = new System.Drawing.Point(123, 50);
+            this.textBoxSignedImageUbc.Name = "textBoxSignedImageUbc";
+            this.textBoxSignedImageUbc.Size = new System.Drawing.Size(558, 23);
+            this.textBoxSignedImageUbc.TabIndex = 4;
             // 
-            // buttonOutputImageUbc
+            // buttonSignedImageUbc
             // 
-            this.buttonOutputImageUbc.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.buttonOutputImageUbc.Font = new System.Drawing.Font("PMingLiU", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.buttonOutputImageUbc.Location = new System.Drawing.Point(687, 43);
-            this.buttonOutputImageUbc.Name = "buttonOutputImageUbc";
-            this.buttonOutputImageUbc.Size = new System.Drawing.Size(74, 38);
-            this.buttonOutputImageUbc.TabIndex = 5;
-            this.buttonOutputImageUbc.Text = "...";
-            this.buttonOutputImageUbc.UseVisualStyleBackColor = true;
-            this.buttonOutputImageUbc.Click += new System.EventHandler(this.buttonOutputImageUbc_Click);
+            this.buttonSignedImageUbc.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonSignedImageUbc.Font = new System.Drawing.Font("PMingLiU", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.buttonSignedImageUbc.Location = new System.Drawing.Point(687, 43);
+            this.buttonSignedImageUbc.Name = "buttonSignedImageUbc";
+            this.buttonSignedImageUbc.Size = new System.Drawing.Size(74, 38);
+            this.buttonSignedImageUbc.TabIndex = 5;
+            this.buttonSignedImageUbc.Text = "...";
+            this.buttonSignedImageUbc.UseVisualStyleBackColor = true;
+            this.buttonSignedImageUbc.Click += new System.EventHandler(this.buttonSignedImageUbc_Click);
             // 
             // buttonSignUbc
             // 
@@ -878,9 +901,9 @@
         private ListBox listBoxHash;
         private Button buttonHashAdd;
         private Button buttonHashRemove;
-        private Label labelOutputImageBios;
-        private Button buttonOutputImageBios;
-        private TextBox textBoxOutputImageBios;
+        private Label labelSignedImageBios;
+        private Button buttonSignedImageBios;
+        private TextBox textBoxSignedImageBios;
         private Button buttonSignBios;
         private TableLayoutPanel tableLayoutPanel1;
         private TableLayoutPanel tableLayoutPanel2;
@@ -901,18 +924,18 @@
         private Label labelImageUbc;
         private TextBox textBoxImageUbc;
         private Button buttonImageUbc;
-        private Label labelOutputImageUbc;
-        private TextBox textBoxOutputImageUbc;
-        private Button buttonOutputImageUbc;
+        private Label labelSignedImageUbc;
+        private TextBox textBoxSignedImageUbc;
+        private Button buttonSignedImageUbc;
         private Button buttonSignUbc;
         private TableLayoutPanel tableLayoutPanel8;
         private TableLayoutPanel tableLayoutPanel9;
         private Label labelImageDisk;
         private TextBox textBoxImageDisk;
         private Button buttonImageDisk;
-        private Label labelOutputImageDisk;
-        private TextBox textBoxOutputImageDisk;
-        private Button buttonOutputImageDisk;
+        private Label labelSignedImageDisk;
+        private TextBox textBoxSignedImageDisk;
+        private Button buttonSignedImageDisk;
         private Button buttonSignDisk;
     }
 }

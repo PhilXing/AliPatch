@@ -41,7 +41,7 @@ namespace AliSign
         public const string REG_VALUE_SIGN_TAB_INDEX = "SignTabIndex";
 
         public const string REG_VALUE_IMAGE_BIOS_PATH = "ImageBiosPath";
-        public const string REG_VALUE_IMAGE_OUTPUT_BIOS_PATH = "ImageOutputBiosPath";
+        public const string REG_VALUE_IMAGE_SIGNED_BIOS_PATH = "ImageSignedBiosPath";
         public const string REG_VALUE_PRIVATE_KEY_PATH = "DsaPrivateKeyPath";
         public const string REG_VALUE_UBIOS_VERSION = "UbiosVersion";
         public const string REG_VALUE_UBIOS_PUBLIC_KEY_PATH = "UbiosPublickeyPath";
@@ -50,20 +50,21 @@ namespace AliSign
         public const string REG_VALUE_HASH_PATH_LIST = "HashPathList";
 
         public const string REG_VALUE_IMAGE_DISK_PATH = "ImageDiskPath";
-        public const string REG_VALUE_IMAGE_OUTPUT_DISK_PATH = "ImageOutputDiskPath";
+        public const string REG_VALUE_IMAGE_SIGNED_DISK_PATH = "ImageSignedDiskPath";
 
         public const string REG_VALUE_IMAGE_UBC_PATH = "ImageUbcPath";
-        public const string REG_VALUE_IMAGE_OUTPUT_UBC_PATH = "ImageOutputUbcPath";
+        public const string REG_VALUE_IMAGE_SIGNED_UBC_PATH = "ImageSignedUbcPath";
 
         public const int MAX_WORKING_FOLDER_SAVED = 5;
 
         public const int HASH_SIZE = 20;
         public const int SIGNATURE_SIZE = 40;
+        public const int RETRY_SIGN = 10;
         // TODO: confirm the size of the DSA private key
         public const int PRIVATE_KEY_SIZE = 684;
         public const int PRIVATE_KEY_SIZE_2 = 672;
         public const int PUBLIC_KEY_SIZE = 404;
-        public const int ROM_FILE_SIZE = 0x800000;
+        public const int SIZE_FILE_BIOS = 0x800000;
         public const string DEFAULT_VERSION_STRING = "UBIOS Version: 8.00.0";
 
         public const int OFFSET_HASH_LIST_START = 0x37c;
@@ -74,6 +75,10 @@ namespace AliSign
         public const int OFFSET_UBIOS_PUBLIC_KEY = 0x7f8020;
 
         public const int MAX_HASH_PATH_COUNT = (OFFSET_HASH_LIST_END_PLUS1 - OFFSET_HASH_LIST_START) / HASH_SIZE;
+
+        public const int SIZE_FILE_DISK = 0x100000;
+
+        public const int SIZE_FILE_UBC = 0x8000;
 
         public string registryAppKey;
         public string registryAppSubKey;
@@ -130,7 +135,7 @@ namespace AliSign
             appKey.SetValue(REG_VALUE_WORKING_PATH_SELECTEDINDEX, comboBoxWorkingFolder.SelectedIndex);
             appKey.SetValue(REG_VALUE_SIGN_TAB_INDEX, tabControlSign.SelectedIndex);
             appKey.SetValue(REG_VALUE_IMAGE_BIOS_PATH, textBoxImageBios.Text);
-            appKey.SetValue(REG_VALUE_IMAGE_OUTPUT_BIOS_PATH, textBoxOutputImageBios.Text);
+            appKey.SetValue(REG_VALUE_IMAGE_SIGNED_BIOS_PATH, textBoxSignedImageBios.Text);
             appKey.SetValue(REG_VALUE_PRIVATE_KEY_PATH, textBoxDsaPrivateKey.Text);
             appKey.SetValue(REG_VALUE_UBIOS_VERSION, textBoxUbiosVersion.Text);
             appKey.SetValue(REG_VALUE_UBIOS_PUBLIC_KEY_PATH, textBoxUbiosPublicKey.Text);
@@ -143,10 +148,10 @@ namespace AliSign
             SaveListSettings(appKey, REG_VALUE_HASH_PATH_LIST, listBoxHash, MAX_HASH_PATH_COUNT);
 
             appKey.SetValue(REG_VALUE_IMAGE_DISK_PATH, textBoxImageDisk.Text);
-            appKey.SetValue(REG_VALUE_IMAGE_OUTPUT_DISK_PATH, textBoxOutputImageDisk.Text);
+            appKey.SetValue(REG_VALUE_IMAGE_SIGNED_DISK_PATH, textBoxSignedImageDisk.Text);
 
             appKey.SetValue(REG_VALUE_IMAGE_UBC_PATH, textBoxImageUbc.Text);
-            appKey.SetValue(REG_VALUE_IMAGE_OUTPUT_UBC_PATH, textBoxOutputImageUbc.Text);
+            appKey.SetValue(REG_VALUE_IMAGE_SIGNED_UBC_PATH, textBoxSignedImageUbc.Text);
         }
 
         private void RestoreComboSettings(RegistryKey appKey, string keyName, System.Windows.Forms.ComboBox comboBox, int maxCount)
@@ -213,7 +218,7 @@ namespace AliSign
             comboBoxWorkingFolder.SelectedIndex = (int)appKey.GetValue(REG_VALUE_WORKING_PATH_SELECTEDINDEX, 0);
             tabControlSign.SelectedIndex = (int)appKey.GetValue(REG_VALUE_SIGN_TAB_INDEX, 0);
             textBoxImageBios.Text = (string)appKey.GetValue(REG_VALUE_IMAGE_BIOS_PATH, "");
-            textBoxOutputImageBios.Text = (string)appKey.GetValue(REG_VALUE_IMAGE_OUTPUT_BIOS_PATH, "");
+            textBoxSignedImageBios.Text = (string)appKey.GetValue(REG_VALUE_IMAGE_SIGNED_BIOS_PATH, "");
             textBoxDsaPrivateKey.Text = (string)appKey.GetValue(REG_VALUE_PRIVATE_KEY_PATH, "");
             textBoxUbiosVersion.Text = (string)appKey.GetValue(REG_VALUE_UBIOS_VERSION, "");
             textBoxUbiosPublicKey.Text = (string)appKey.GetValue(REG_VALUE_UBIOS_PUBLIC_KEY_PATH, "");
@@ -221,10 +226,10 @@ namespace AliSign
             textBoxBootLoaderPublicKey.Text = (string)appKey.GetValue(REG_VALUE_BOOT_LOADER_PUBLIC_KEY_PATH, "");
 
             textBoxImageDisk.Text = (string)appKey.GetValue(REG_VALUE_IMAGE_DISK_PATH, "");
-            textBoxOutputImageDisk.Text = (string)appKey.GetValue(REG_VALUE_IMAGE_OUTPUT_DISK_PATH, "");
+            textBoxSignedImageDisk.Text = (string)appKey.GetValue(REG_VALUE_IMAGE_SIGNED_DISK_PATH, "");
 
             textBoxImageUbc.Text = (string)appKey.GetValue(REG_VALUE_IMAGE_UBC_PATH, "");
-            textBoxOutputImageUbc.Text = (string)appKey.GetValue(REG_VALUE_IMAGE_OUTPUT_UBC_PATH, "");
+            textBoxSignedImageUbc.Text = (string)appKey.GetValue(REG_VALUE_IMAGE_SIGNED_UBC_PATH, "");
         }
 
         public Form1()
@@ -316,8 +321,8 @@ namespace AliSign
 
         private void enableControlsBios(bool isValid)
         {
-            textBoxOutputImageBios.Enabled = isValid;
-            buttonOutputImageBios.Enabled = isValid;
+            textBoxSignedImageBios.Enabled = isValid;
+            buttonSignedImageBios.Enabled = isValid;
             textBoxDsaPrivateKey.Enabled = isValid;
             buttonDsaPrivateKey.Enabled = isValid;
             textBoxUbiosVersion.Enabled = isValid;
@@ -361,12 +366,15 @@ namespace AliSign
 
         private void textBoxImageBios_TextChanged(object sender, EventArgs e)
         {
-            if (File.Exists(textBoxImageBios.Text))
+            System.Windows.Forms.TextBox textBox = (System.Windows.Forms.TextBox)sender;
+            string text = textBox.Text;
+
+            if (File.Exists(text))
             {
                 //
                 // Read Image file to bytes[] BytesImageBios
                 //
-                BytesImageBios = File.ReadAllBytes(textBoxImageBios.Text);
+                BytesImageBios = File.ReadAllBytes(text);
                 //
                 // support old project which size is 4MB and the identification is not 16 bytes aligned
                 //
@@ -378,9 +386,9 @@ namespace AliSign
                 //{
                 //    identificationAlignment = 1;
                 //}
-                if (textBoxOutputImageBios.Text.Length == 0)
+                if (textBoxSignedImageBios.Text.Length == 0)
                 {
-                    textBoxOutputImageBios.Text = textBoxImageBios.Text;
+                    textBoxSignedImageBios.Text =  Path.GetDirectoryName(text) + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(text) + "_signed" + Path.GetExtension(text); ;
                 }
                 enableControlsBios(isValidImageBios());
             }
@@ -514,11 +522,16 @@ namespace AliSign
         {
             var ImageBiosSelected = false;
             textBoxImageBios.Text = string.Empty;
-            textBoxOutputImageBios.Text = string.Empty;
+            textBoxSignedImageBios.Text = string.Empty;
             textBoxDsaPrivateKey.Text = string.Empty;
             textBoxUbiosPublicKey.Text = string.Empty;
             textBoxUbcPublicKey.Text = string.Empty;
             textBoxBootLoaderPublicKey.Text = string.Empty;
+
+            textBoxImageDisk.Text = string.Empty;
+            textBoxSignedImageDisk.Text = string.Empty;
+            textBoxImageUbc.Text = string.Empty;
+            textBoxSignedImageUbc.Text = string.Empty;
 
             listBoxHash.Items.Clear();
 
@@ -545,22 +558,22 @@ namespace AliSign
                 {
                     if (string.IsNullOrEmpty(textBoxUbcPublicKey.Text) && info.Name.Contains("UBC", StringComparison.OrdinalIgnoreCase))
                     {
-                        textBoxUbcPublicKey.Text += info.FullName;
+                        textBoxUbcPublicKey.Text = info.FullName;
                         continue;
                     }
                     if (string.IsNullOrEmpty(textBoxUbiosPublicKey.Text) && info.Name.Contains("UBIOS", StringComparison.OrdinalIgnoreCase))
                     {
-                        textBoxUbiosPublicKey.Text += info.FullName;
+                        textBoxUbiosPublicKey.Text = info.FullName;
                         continue;
                     }
                     if (string.IsNullOrEmpty(textBoxBootLoaderPublicKey.Text) && info.Name.Contains("MBR", StringComparison.OrdinalIgnoreCase))
                     {
-                        textBoxBootLoaderPublicKey.Text += info.FullName;
+                        textBoxBootLoaderPublicKey.Text = info.FullName;
                         //continue;
                     }
                     continue;
                 }
-                if (!ImageBiosSelected && info.Length == ROM_FILE_SIZE)
+                if (!ImageBiosSelected && info.Length == SIZE_FILE_BIOS)
                 {
                     BytesImageBios = File.ReadAllBytes(info.FullName);
 
@@ -569,6 +582,16 @@ namespace AliSign
                         textBoxImageBios.Text = info.FullName;
                         ImageBiosSelected = true;
                     }
+                    continue;
+                }
+                if (String.IsNullOrEmpty(textBoxImageDisk.Text) && info.Length == SIZE_FILE_DISK)
+                {
+                    textBoxImageDisk.Text = info.FullName;
+                    continue;
+                }
+                if (String.IsNullOrEmpty(textBoxImageUbc.Text) && info.Length == SIZE_FILE_UBC)
+                {
+                    textBoxImageUbc.Text = info.FullName;
                     continue;
                 }
             }
@@ -619,6 +642,8 @@ namespace AliSign
 
         private void textBoxDsaPrivateKey_TextChanged(object sender, EventArgs e)
         {
+            if (!File.Exists(textBoxDsaPrivateKey.Text)) { return; }
+
             string pem = File.ReadAllText(textBoxDsaPrivateKey.Text);
 
             // Create a PemReader to parse the PEM file
@@ -738,8 +763,8 @@ namespace AliSign
             //
             try
             {
-                MessageBox.Show("Write to " + textBoxOutputImageBios.Text);
-                File.WriteAllBytes(textBoxOutputImageBios.Text, BytesImageBios);
+                MessageBox.Show("Write to " + textBoxSignedImageBios.Text);
+                File.WriteAllBytes(textBoxSignedImageBios.Text, BytesImageBios);
             }
             catch (IOException ex)
             {
@@ -752,9 +777,9 @@ namespace AliSign
             textBoxImageDisk.Text = buttonFilePath_Click(textBoxImageDisk.Text);
         }
 
-        private void buttonOutputImageDisk_Click(object sender, EventArgs e)
+        private void buttonSignedImageDisk_Click(object sender, EventArgs e)
         {
-            textBoxOutputImageDisk.Text = buttonFilePath_Click(textBoxOutputImageDisk.Text);
+            textBoxSignedImageDisk.Text = buttonFilePath_Click(textBoxSignedImageDisk.Text);
         }
         //
         // constants for singing disk
@@ -763,8 +788,8 @@ namespace AliSign
 
         private void enableControlsDisk(bool isValid)
         {
-            textBoxOutputImageDisk.Enabled = isValid;
-            buttonOutputImageDisk.Enabled = isValid;
+            textBoxSignedImageDisk.Enabled = isValid;
+            buttonSignedImageDisk.Enabled = isValid;
             buttonSignDisk.Enabled = isValid;
         }
 
@@ -783,6 +808,9 @@ namespace AliSign
 
         private void textBoxImageDisk_TextChanged(object sender, EventArgs e)
         {
+            System.Windows.Forms.TextBox textBox = (System.Windows.Forms.TextBox)sender;
+            string text = textBox.Text;
+
             if (File.Exists(textBoxImageDisk.Text))
             {
                 //
@@ -792,9 +820,9 @@ namespace AliSign
                 //
                 // set the default output image file name
                 //
-                if (textBoxOutputImageDisk.Text.Length == 0)
+                if (textBoxSignedImageDisk.Text.Length == 0)
                 {
-                    textBoxOutputImageDisk.Text = textBoxImageDisk.Text;
+                    textBoxSignedImageDisk.Text =  Path.GetDirectoryName(text) + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(text) + "_signed" + Path.GetExtension(text); ;
                 }
                 enableControlsDisk(isValidImageDisk());
             }
@@ -814,25 +842,32 @@ namespace AliSign
         {
             byte[] signature;
             byte[] hash;
+            int retryCount;
+
             //
             // 1. sign MBR
             // 
-            byte[] sector1 = BytesImageDisk[0..(SIZE_DISK_SECTOR - 1)]; // 1st sector
-
             short BL_Ss = 1; // GRUB Boot Loader Start Sector; 
-            Buffer.BlockCopy(BitConverter.GetBytes(BL_Ss), 0, sector1, 0x1b4, sizeof(short));
+            Buffer.BlockCopy(BitConverter.GetBytes(BL_Ss), 0, BytesImageDisk, 0x1b4, sizeof(short));
 
-            short BL_Si = (short)(BitConverter.ToInt16(sector1, 0x1c6) - 2); // BL Si = GRUB Boot Loader Sector Size
-            Buffer.BlockCopy(BitConverter.GetBytes(BL_Ss), 0, sector1, 0x1b6, sizeof(short));
+            short BL_Si = (short)(BitConverter.ToInt16(BytesImageDisk, 0x1c6) - 2); // BL Si = GRUB Boot Loader Sector Size
+            Buffer.BlockCopy(BitConverter.GetBytes(BL_Si), 0, BytesImageDisk, 0x1b6, sizeof(short));
+
             // assemble a blobMbr
-            byte[] blobMbr = BytesImageDisk[0..0x177].Concat(sector1[0x1b4..]).ToArray();
+            byte[] blobMbr = BytesImageDisk[0..0x178].Concat(BytesImageDisk[0x1b4..SIZE_DISK_SECTOR]).ToArray();
 
             // Compute the hash of the blobMbr
             hashFunction.BlockUpdate(blobMbr, 0, blobMbr.Length);
             hash = new byte[hashFunction.GetDigestSize()];
             hashFunction.DoFinal(hash, 0);
             // Convert the signature to an byte array
-            signature = bigIntegersToBytes(signer.GenerateSignature(hash));
+            retryCount = 0;
+            do
+            {
+                signature = bigIntegersToBytes(signer.GenerateSignature(hash));
+                retryCount++;
+            } while (signature.Length != 40 && retryCount < RETRY_SIGN);
+            if (retryCount >= RETRY_SIGN) { return; }
 
             // patch signature & hash
             Buffer.BlockCopy(signature, 0, BytesImageDisk, 0x178, signature.Length); // length = 0x28
@@ -844,10 +879,16 @@ namespace AliSign
 
             // Compute the hash of the blobGrub
             hashFunction.BlockUpdate(blobGrub, 0, blobGrub.Length);
-            hash = new byte[hashFunction.GetDigestSize()];
+            //hash = new byte[hashFunction.GetDigestSize()];
             hashFunction.DoFinal(hash, 0);
             // Convert the signature to an byte array
-            signature = bigIntegersToBytes(signer.GenerateSignature(hash));
+            retryCount = 0;
+            do
+            {
+                signature = bigIntegersToBytes(signer.GenerateSignature(hash));
+                retryCount++;
+            } while (signature.Length != 40 && retryCount < RETRY_SIGN);
+            if (retryCount >= RETRY_SIGN ) { return; }
 
             // patch signature & hash
             Buffer.BlockCopy(hash, 0, BytesImageDisk, BytesImageDisk.Length - SIZE_DISK_SECTOR, hash.Length); // length = 0x14
@@ -857,8 +898,8 @@ namespace AliSign
             //
             try
             {
-                MessageBox.Show("Write to " + textBoxOutputImageDisk.Text);
-                File.WriteAllBytes(textBoxOutputImageDisk.Text, BytesImageDisk);
+                MessageBox.Show("Write to " + textBoxSignedImageDisk.Text);
+                File.WriteAllBytes(textBoxSignedImageDisk.Text, BytesImageDisk);
             }
             catch (IOException ex)
             {
@@ -871,22 +912,25 @@ namespace AliSign
             textBoxImageUbc.Text = buttonFilePath_Click(textBoxImageUbc.Text);
         }
 
-        private void buttonOutputImageUbc_Click(object sender, EventArgs e)
+        private void buttonSignedImageUbc_Click(object sender, EventArgs e)
         {
-            textBoxOutputImageUbc.Text = buttonFilePath_Click(textBoxOutputImageUbc.Text);
+            textBoxSignedImageUbc.Text = buttonFilePath_Click(textBoxSignedImageUbc.Text);
         }
 
         private void textBoxImageUbc_TextChanged(object sender, EventArgs e)
         {
-            if (File.Exists(textBoxImageUbc.Text))
+            System.Windows.Forms.TextBox textBox = (System.Windows.Forms.TextBox)sender;
+            string text = textBox.Text;
+
+            if (File.Exists(text))
             {
                 //
                 // Read Image file to bytes[] BytesImageUbc
                 //
-                BytesImageUbc = File.ReadAllBytes(textBoxImageUbc.Text);
-                if (textBoxOutputImageUbc.Text.Length == 0)
+                BytesImageUbc = File.ReadAllBytes(text);
+                if (textBoxSignedImageUbc.Text.Length == 0)
                 {
-                    textBoxOutputImageUbc.Text = textBoxImageUbc.Text;
+                    textBoxSignedImageUbc.Text = Path.GetDirectoryName(text) + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(text) + "_signed" + Path.GetExtension(text); ;
                 }
                 //enableControlsUbc(isValidImageUbc());
             }
@@ -915,8 +959,8 @@ namespace AliSign
             //
             try
             {
-                MessageBox.Show("Write to " + textBoxOutputImageUbc.Text);
-                File.WriteAllBytes(textBoxOutputImageUbc.Text, BytesImageUbc);
+                MessageBox.Show("Write to " + textBoxSignedImageUbc.Text);
+                File.WriteAllBytes(textBoxSignedImageUbc.Text, BytesImageUbc);
             }
             catch (IOException ex)
             {
@@ -924,5 +968,25 @@ namespace AliSign
             }
         }
 
+        private void comboBoxWorkingFolder_Validating(object sender, CancelEventArgs e)
+        {
+            System.Windows.Forms.ComboBox  comboBox = (System.Windows.Forms.ComboBox)sender;
+            string text = comboBox.Text;
+
+            // Check if the specified folder exists
+            if (!Directory.Exists(text))
+            {
+                // If the folder does not exist, display an error message and keep the focus on the TextBox
+                //errorProvider1.SetError(textBox, "The specified folder does not exist");
+                e.Cancel = true;
+            }
+            else
+            {
+                // If the folder exists, clear the error message and allow the focus to be moved away from the TextBox
+                //errorProvider1.SetError(textBox, "");
+                e.Cancel = false;
+            }
+
+        }
     }
 }
