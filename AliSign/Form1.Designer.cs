@@ -80,13 +80,24 @@
             this.buttonSignDisk = new System.Windows.Forms.Button();
             this.tabPageUbc = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel10 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel12 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel11 = new System.Windows.Forms.TableLayoutPanel();
+            this.textBoxUbiosVersionUbc = new System.Windows.Forms.TextBox();
+            this.labelUbcVersion = new System.Windows.Forms.Label();
             this.labelImageUbc = new System.Windows.Forms.Label();
             this.textBoxImageUbc = new System.Windows.Forms.TextBox();
             this.buttonImageUbc = new System.Windows.Forms.Button();
             this.labelSignedImageUbc = new System.Windows.Forms.Label();
             this.textBoxSignedImageUbc = new System.Windows.Forms.TextBox();
             this.buttonSignedImageUbc = new System.Windows.Forms.Button();
+            this.labelUbiosVersionUbc = new System.Windows.Forms.Label();
+            this.textBoxUbcVersion = new System.Windows.Forms.TextBox();
+            this.tableLayoutPanel13 = new System.Windows.Forms.TableLayoutPanel();
+            this.listBoxHashUbc = new System.Windows.Forms.ListBox();
+            this.tableLayoutPanel14 = new System.Windows.Forms.TableLayoutPanel();
+            this.buttonHashRemoveUbc = new System.Windows.Forms.Button();
+            this.buttonHashAddUbc = new System.Windows.Forms.Button();
+            this.labelHashListUbc = new System.Windows.Forms.Label();
             this.buttonSignUbc = new System.Windows.Forms.Button();
             this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel7 = new System.Windows.Forms.TableLayoutPanel();
@@ -102,7 +113,10 @@
             this.tableLayoutPanel9.SuspendLayout();
             this.tabPageUbc.SuspendLayout();
             this.tableLayoutPanel10.SuspendLayout();
+            this.tableLayoutPanel12.SuspendLayout();
             this.tableLayoutPanel11.SuspendLayout();
+            this.tableLayoutPanel13.SuspendLayout();
+            this.tableLayoutPanel14.SuspendLayout();
             this.tableLayoutPanel6.SuspendLayout();
             this.tableLayoutPanel7.SuspendLayout();
             this.SuspendLayout();
@@ -164,7 +178,7 @@
             this.textBoxImageBios.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.FileSystem;
             this.textBoxImageBios.Location = new System.Drawing.Point(153, 10);
             this.textBoxImageBios.Name = "textBoxImageBios";
-            this.textBoxImageBios.Size = new System.Drawing.Size(171, 23);
+            this.textBoxImageBios.Size = new System.Drawing.Size(167, 23);
             this.textBoxImageBios.TabIndex = 4;
             this.textBoxImageBios.TextChanged += new System.EventHandler(this.textBoxImageBios_TextChanged);
             // 
@@ -172,7 +186,7 @@
             // 
             this.buttonImageBios.Dock = System.Windows.Forms.DockStyle.Fill;
             this.buttonImageBios.Font = new System.Drawing.Font("PMingLiU", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.buttonImageBios.Location = new System.Drawing.Point(330, 3);
+            this.buttonImageBios.Location = new System.Drawing.Point(326, 3);
             this.buttonImageBios.Name = "buttonImageBios";
             this.buttonImageBios.Size = new System.Drawing.Size(74, 37);
             this.buttonImageBios.TabIndex = 5;
@@ -229,8 +243,9 @@
             this.textBoxUbiosVersion.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxUbiosVersion.Enabled = false;
             this.textBoxUbiosVersion.Location = new System.Drawing.Point(153, 96);
+            this.textBoxUbiosVersion.MaxLength = 24;
             this.textBoxUbiosVersion.Name = "textBoxUbiosVersion";
-            this.textBoxUbiosVersion.Size = new System.Drawing.Size(171, 23);
+            this.textBoxUbiosVersion.Size = new System.Drawing.Size(167, 23);
             this.textBoxUbiosVersion.TabIndex = 10;
             // 
             // labelUbiosPublicKey
@@ -251,7 +266,7 @@
             this.textBoxUbiosPublicKey.Enabled = false;
             this.textBoxUbiosPublicKey.Location = new System.Drawing.Point(153, 139);
             this.textBoxUbiosPublicKey.Name = "textBoxUbiosPublicKey";
-            this.textBoxUbiosPublicKey.Size = new System.Drawing.Size(171, 23);
+            this.textBoxUbiosPublicKey.Size = new System.Drawing.Size(167, 23);
             this.textBoxUbiosPublicKey.TabIndex = 15;
             // 
             // buttonUbiosPublicKey
@@ -259,7 +274,7 @@
             this.buttonUbiosPublicKey.Dock = System.Windows.Forms.DockStyle.Fill;
             this.buttonUbiosPublicKey.Enabled = false;
             this.buttonUbiosPublicKey.Font = new System.Drawing.Font("PMingLiU", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.buttonUbiosPublicKey.Location = new System.Drawing.Point(330, 132);
+            this.buttonUbiosPublicKey.Location = new System.Drawing.Point(326, 132);
             this.buttonUbiosPublicKey.Name = "buttonUbiosPublicKey";
             this.buttonUbiosPublicKey.Size = new System.Drawing.Size(74, 37);
             this.buttonUbiosPublicKey.TabIndex = 16;
@@ -285,7 +300,7 @@
             this.textBoxBootLoaderPublicKey.Enabled = false;
             this.textBoxBootLoaderPublicKey.Location = new System.Drawing.Point(153, 226);
             this.textBoxBootLoaderPublicKey.Name = "textBoxBootLoaderPublicKey";
-            this.textBoxBootLoaderPublicKey.Size = new System.Drawing.Size(171, 23);
+            this.textBoxBootLoaderPublicKey.Size = new System.Drawing.Size(167, 23);
             this.textBoxBootLoaderPublicKey.TabIndex = 21;
             // 
             // buttonBootLoaderPublicKey
@@ -293,7 +308,7 @@
             this.buttonBootLoaderPublicKey.Dock = System.Windows.Forms.DockStyle.Fill;
             this.buttonBootLoaderPublicKey.Enabled = false;
             this.buttonBootLoaderPublicKey.Font = new System.Drawing.Font("PMingLiU", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.buttonBootLoaderPublicKey.Location = new System.Drawing.Point(330, 218);
+            this.buttonBootLoaderPublicKey.Location = new System.Drawing.Point(326, 218);
             this.buttonBootLoaderPublicKey.Name = "buttonBootLoaderPublicKey";
             this.buttonBootLoaderPublicKey.Size = new System.Drawing.Size(74, 39);
             this.buttonBootLoaderPublicKey.TabIndex = 22;
@@ -320,7 +335,7 @@
             this.listBoxHash.Location = new System.Drawing.Point(83, 3);
             this.listBoxHash.Name = "listBoxHash";
             this.listBoxHash.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.listBoxHash.Size = new System.Drawing.Size(253, 254);
+            this.listBoxHash.Size = new System.Drawing.Size(257, 254);
             this.listBoxHash.TabIndex = 0;
             // 
             // buttonHashAdd
@@ -364,7 +379,7 @@
             this.buttonSignedImageBios.Dock = System.Windows.Forms.DockStyle.Fill;
             this.buttonSignedImageBios.Enabled = false;
             this.buttonSignedImageBios.Font = new System.Drawing.Font("PMingLiU", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.buttonSignedImageBios.Location = new System.Drawing.Point(330, 46);
+            this.buttonSignedImageBios.Location = new System.Drawing.Point(326, 46);
             this.buttonSignedImageBios.Name = "buttonSignedImageBios";
             this.buttonSignedImageBios.Size = new System.Drawing.Size(74, 37);
             this.buttonSignedImageBios.TabIndex = 8;
@@ -379,7 +394,7 @@
             this.textBoxSignedImageBios.Enabled = false;
             this.textBoxSignedImageBios.Location = new System.Drawing.Point(153, 53);
             this.textBoxSignedImageBios.Name = "textBoxSignedImageBios";
-            this.textBoxSignedImageBios.Size = new System.Drawing.Size(171, 23);
+            this.textBoxSignedImageBios.Size = new System.Drawing.Size(167, 23);
             this.textBoxSignedImageBios.TabIndex = 7;
             // 
             // buttonSignBios
@@ -413,11 +428,8 @@
             // tableLayoutPanel2
             // 
             this.tableLayoutPanel2.ColumnCount = 2;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 54.53745F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 45.46255F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 54F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 46F));
             this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel3, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel4, 1, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -463,7 +475,7 @@
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(407, 260);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(403, 260);
             this.tableLayoutPanel3.TabIndex = 0;
             // 
             // textBoxUbcPublicKey
@@ -474,7 +486,7 @@
             this.textBoxUbcPublicKey.Enabled = false;
             this.textBoxUbcPublicKey.Location = new System.Drawing.Point(153, 182);
             this.textBoxUbcPublicKey.Name = "textBoxUbcPublicKey";
-            this.textBoxUbcPublicKey.Size = new System.Drawing.Size(171, 23);
+            this.textBoxUbcPublicKey.Size = new System.Drawing.Size(167, 23);
             this.textBoxUbcPublicKey.TabIndex = 18;
             // 
             // buttonUbcPublicKey
@@ -482,7 +494,7 @@
             this.buttonUbcPublicKey.Dock = System.Windows.Forms.DockStyle.Fill;
             this.buttonUbcPublicKey.Enabled = false;
             this.buttonUbcPublicKey.Font = new System.Drawing.Font("PMingLiU", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.buttonUbcPublicKey.Location = new System.Drawing.Point(330, 175);
+            this.buttonUbcPublicKey.Location = new System.Drawing.Point(326, 175);
             this.buttonUbcPublicKey.Name = "buttonUbcPublicKey";
             this.buttonUbcPublicKey.Size = new System.Drawing.Size(74, 37);
             this.buttonUbcPublicKey.TabIndex = 19;
@@ -508,20 +520,20 @@
             this.tableLayoutPanel4.Controls.Add(this.listBoxHash, 1, 0);
             this.tableLayoutPanel4.Controls.Add(this.tableLayoutPanel5, 0, 0);
             this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel4.Location = new System.Drawing.Point(416, 3);
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(412, 3);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
             this.tableLayoutPanel4.RowCount = 1;
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(339, 260);
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(343, 260);
             this.tableLayoutPanel4.TabIndex = 1;
             // 
             // tableLayoutPanel5
             // 
             this.tableLayoutPanel5.ColumnCount = 1;
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel5.Controls.Add(this.labelHashList, 0, 0);
             this.tableLayoutPanel5.Controls.Add(this.buttonHashRemove, 0, 2);
             this.tableLayoutPanel5.Controls.Add(this.buttonHashAdd, 0, 1);
+            this.tableLayoutPanel5.Controls.Add(this.labelHashList, 0, 0);
             this.tableLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel5.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel5.Name = "tableLayoutPanel5";
@@ -695,43 +707,86 @@
             // 
             this.tableLayoutPanel10.ColumnCount = 1;
             this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel10.Controls.Add(this.tableLayoutPanel11, 0, 0);
+            this.tableLayoutPanel10.Controls.Add(this.tableLayoutPanel12, 0, 0);
             this.tableLayoutPanel10.Controls.Add(this.buttonSignUbc, 0, 1);
             this.tableLayoutPanel10.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel10.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel10.Name = "tableLayoutPanel10";
             this.tableLayoutPanel10.RowCount = 2;
-            this.tableLayoutPanel10.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 90F));
+            this.tableLayoutPanel10.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 176F));
             this.tableLayoutPanel10.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel10.Size = new System.Drawing.Size(770, 347);
             this.tableLayoutPanel10.TabIndex = 1;
             // 
+            // tableLayoutPanel12
+            // 
+            this.tableLayoutPanel12.ColumnCount = 2;
+            this.tableLayoutPanel12.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 54F));
+            this.tableLayoutPanel12.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 46F));
+            this.tableLayoutPanel12.Controls.Add(this.tableLayoutPanel11, 0, 0);
+            this.tableLayoutPanel12.Controls.Add(this.tableLayoutPanel13, 1, 0);
+            this.tableLayoutPanel12.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel12.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel12.Name = "tableLayoutPanel12";
+            this.tableLayoutPanel12.RowCount = 1;
+            this.tableLayoutPanel12.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel12.Size = new System.Drawing.Size(764, 170);
+            this.tableLayoutPanel12.TabIndex = 2;
+            // 
             // tableLayoutPanel11
             // 
             this.tableLayoutPanel11.ColumnCount = 3;
-            this.tableLayoutPanel11.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 120F));
+            this.tableLayoutPanel11.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.tableLayoutPanel11.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel11.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
+            this.tableLayoutPanel11.Controls.Add(this.textBoxUbiosVersionUbc, 1, 2);
+            this.tableLayoutPanel11.Controls.Add(this.labelUbcVersion, 0, 3);
             this.tableLayoutPanel11.Controls.Add(this.labelImageUbc, 0, 0);
             this.tableLayoutPanel11.Controls.Add(this.textBoxImageUbc, 1, 0);
             this.tableLayoutPanel11.Controls.Add(this.buttonImageUbc, 2, 0);
             this.tableLayoutPanel11.Controls.Add(this.labelSignedImageUbc, 0, 1);
             this.tableLayoutPanel11.Controls.Add(this.textBoxSignedImageUbc, 1, 1);
             this.tableLayoutPanel11.Controls.Add(this.buttonSignedImageUbc, 2, 1);
+            this.tableLayoutPanel11.Controls.Add(this.labelUbiosVersionUbc, 0, 2);
+            this.tableLayoutPanel11.Controls.Add(this.textBoxUbcVersion, 1, 3);
             this.tableLayoutPanel11.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel11.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel11.Name = "tableLayoutPanel11";
-            this.tableLayoutPanel11.RowCount = 2;
+            this.tableLayoutPanel11.RowCount = 4;
             this.tableLayoutPanel11.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel11.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.tableLayoutPanel11.Size = new System.Drawing.Size(764, 84);
+            this.tableLayoutPanel11.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tableLayoutPanel11.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tableLayoutPanel11.Size = new System.Drawing.Size(406, 164);
             this.tableLayoutPanel11.TabIndex = 0;
+            // 
+            // textBoxUbiosVersionUbc
+            // 
+            this.textBoxUbiosVersionUbc.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxUbiosVersionUbc.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.textBoxUbiosVersionUbc.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.FileSystem;
+            this.textBoxUbiosVersionUbc.Enabled = false;
+            this.textBoxUbiosVersionUbc.Location = new System.Drawing.Point(103, 88);
+            this.textBoxUbiosVersionUbc.MaxLength = 24;
+            this.textBoxUbiosVersionUbc.Name = "textBoxUbiosVersionUbc";
+            this.textBoxUbiosVersionUbc.Size = new System.Drawing.Size(220, 23);
+            this.textBoxUbiosVersionUbc.TabIndex = 5;
+            // 
+            // labelUbcVersion
+            // 
+            this.labelUbcVersion.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.labelUbcVersion.AutoSize = true;
+            this.labelUbcVersion.Location = new System.Drawing.Point(21, 134);
+            this.labelUbcVersion.Name = "labelUbcVersion";
+            this.labelUbcVersion.Size = new System.Drawing.Size(76, 15);
+            this.labelUbcVersion.TabIndex = 7;
+            this.labelUbcVersion.Text = "UBC Version";
             // 
             // labelImageUbc
             // 
             this.labelImageUbc.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.labelImageUbc.AutoSize = true;
-            this.labelImageUbc.Location = new System.Drawing.Point(47, 12);
+            this.labelImageUbc.Location = new System.Drawing.Point(27, 12);
             this.labelImageUbc.Name = "labelImageUbc";
             this.labelImageUbc.Size = new System.Drawing.Size(70, 15);
             this.labelImageUbc.TabIndex = 0;
@@ -742,9 +797,9 @@
             this.textBoxImageUbc.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxImageUbc.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.textBoxImageUbc.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.FileSystem;
-            this.textBoxImageUbc.Location = new System.Drawing.Point(123, 8);
+            this.textBoxImageUbc.Location = new System.Drawing.Point(103, 8);
             this.textBoxImageUbc.Name = "textBoxImageUbc";
-            this.textBoxImageUbc.Size = new System.Drawing.Size(558, 23);
+            this.textBoxImageUbc.Size = new System.Drawing.Size(220, 23);
             this.textBoxImageUbc.TabIndex = 1;
             this.textBoxImageUbc.TextChanged += new System.EventHandler(this.textBoxImageUbc_TextChanged);
             // 
@@ -752,7 +807,7 @@
             // 
             this.buttonImageUbc.Dock = System.Windows.Forms.DockStyle.Fill;
             this.buttonImageUbc.Font = new System.Drawing.Font("PMingLiU", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.buttonImageUbc.Location = new System.Drawing.Point(687, 3);
+            this.buttonImageUbc.Location = new System.Drawing.Point(329, 3);
             this.buttonImageUbc.Name = "buttonImageUbc";
             this.buttonImageUbc.Size = new System.Drawing.Size(74, 34);
             this.buttonImageUbc.TabIndex = 2;
@@ -764,7 +819,7 @@
             // 
             this.labelSignedImageUbc.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.labelSignedImageUbc.AutoSize = true;
-            this.labelSignedImageUbc.Location = new System.Drawing.Point(31, 54);
+            this.labelSignedImageUbc.Location = new System.Drawing.Point(11, 52);
             this.labelSignedImageUbc.Name = "labelSignedImageUbc";
             this.labelSignedImageUbc.Size = new System.Drawing.Size(86, 15);
             this.labelSignedImageUbc.TabIndex = 3;
@@ -775,30 +830,136 @@
             this.textBoxSignedImageUbc.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxSignedImageUbc.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.textBoxSignedImageUbc.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.FileSystem;
-            this.textBoxSignedImageUbc.Location = new System.Drawing.Point(123, 50);
+            this.textBoxSignedImageUbc.Enabled = false;
+            this.textBoxSignedImageUbc.Location = new System.Drawing.Point(103, 48);
             this.textBoxSignedImageUbc.Name = "textBoxSignedImageUbc";
-            this.textBoxSignedImageUbc.Size = new System.Drawing.Size(558, 23);
+            this.textBoxSignedImageUbc.Size = new System.Drawing.Size(220, 23);
             this.textBoxSignedImageUbc.TabIndex = 4;
             // 
             // buttonSignedImageUbc
             // 
             this.buttonSignedImageUbc.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonSignedImageUbc.Enabled = false;
             this.buttonSignedImageUbc.Font = new System.Drawing.Font("PMingLiU", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.buttonSignedImageUbc.Location = new System.Drawing.Point(687, 43);
+            this.buttonSignedImageUbc.Location = new System.Drawing.Point(329, 43);
             this.buttonSignedImageUbc.Name = "buttonSignedImageUbc";
-            this.buttonSignedImageUbc.Size = new System.Drawing.Size(74, 38);
+            this.buttonSignedImageUbc.Size = new System.Drawing.Size(74, 34);
             this.buttonSignedImageUbc.TabIndex = 5;
             this.buttonSignedImageUbc.Text = "...";
             this.buttonSignedImageUbc.UseVisualStyleBackColor = true;
             this.buttonSignedImageUbc.Click += new System.EventHandler(this.buttonSignedImageUbc_Click);
             // 
+            // labelUbiosVersionUbc
+            // 
+            this.labelUbiosVersionUbc.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.labelUbiosVersionUbc.AutoSize = true;
+            this.labelUbiosVersionUbc.Location = new System.Drawing.Point(9, 92);
+            this.labelUbiosVersionUbc.Name = "labelUbiosVersionUbc";
+            this.labelUbiosVersionUbc.Size = new System.Drawing.Size(88, 15);
+            this.labelUbiosVersionUbc.TabIndex = 6;
+            this.labelUbiosVersionUbc.Text = "UBIOS Version";
+            // 
+            // textBoxUbcVersion
+            // 
+            this.textBoxUbcVersion.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxUbcVersion.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.textBoxUbcVersion.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.FileSystem;
+            this.textBoxUbcVersion.Enabled = false;
+            this.textBoxUbcVersion.Location = new System.Drawing.Point(103, 130);
+            this.textBoxUbcVersion.MaxLength = 6;
+            this.textBoxUbcVersion.Name = "textBoxUbcVersion";
+            this.textBoxUbcVersion.Size = new System.Drawing.Size(220, 23);
+            this.textBoxUbcVersion.TabIndex = 8;
+            // 
+            // tableLayoutPanel13
+            // 
+            this.tableLayoutPanel13.ColumnCount = 2;
+            this.tableLayoutPanel13.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
+            this.tableLayoutPanel13.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel13.Controls.Add(this.listBoxHashUbc, 0, 0);
+            this.tableLayoutPanel13.Controls.Add(this.tableLayoutPanel14, 0, 0);
+            this.tableLayoutPanel13.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel13.Location = new System.Drawing.Point(415, 3);
+            this.tableLayoutPanel13.Name = "tableLayoutPanel13";
+            this.tableLayoutPanel13.RowCount = 1;
+            this.tableLayoutPanel13.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel13.Size = new System.Drawing.Size(346, 164);
+            this.tableLayoutPanel13.TabIndex = 1;
+            // 
+            // listBoxHashUbc
+            // 
+            this.listBoxHashUbc.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listBoxHashUbc.Enabled = false;
+            this.listBoxHashUbc.FormattingEnabled = true;
+            this.listBoxHashUbc.ItemHeight = 15;
+            this.listBoxHashUbc.Location = new System.Drawing.Point(83, 3);
+            this.listBoxHashUbc.Name = "listBoxHashUbc";
+            this.listBoxHashUbc.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+            this.listBoxHashUbc.Size = new System.Drawing.Size(260, 158);
+            this.listBoxHashUbc.TabIndex = 22;
+            // 
+            // tableLayoutPanel14
+            // 
+            this.tableLayoutPanel14.ColumnCount = 1;
+            this.tableLayoutPanel14.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel14.Controls.Add(this.buttonHashRemoveUbc, 0, 2);
+            this.tableLayoutPanel14.Controls.Add(this.buttonHashAddUbc, 0, 1);
+            this.tableLayoutPanel14.Controls.Add(this.labelHashListUbc, 0, 0);
+            this.tableLayoutPanel14.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel14.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel14.Name = "tableLayoutPanel14";
+            this.tableLayoutPanel14.RowCount = 3;
+            this.tableLayoutPanel14.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel14.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel14.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel14.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel14.Size = new System.Drawing.Size(74, 158);
+            this.tableLayoutPanel14.TabIndex = 21;
+            // 
+            // buttonHashRemoveUbc
+            // 
+            this.buttonHashRemoveUbc.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonHashRemoveUbc.Enabled = false;
+            this.buttonHashRemoveUbc.Font = new System.Drawing.Font("PMingLiU", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.buttonHashRemoveUbc.Location = new System.Drawing.Point(3, 97);
+            this.buttonHashRemoveUbc.Name = "buttonHashRemoveUbc";
+            this.buttonHashRemoveUbc.Size = new System.Drawing.Size(68, 58);
+            this.buttonHashRemoveUbc.TabIndex = 1;
+            this.buttonHashRemoveUbc.Text = "-";
+            this.buttonHashRemoveUbc.UseVisualStyleBackColor = true;
+            this.buttonHashRemoveUbc.Click += new System.EventHandler(this.buttonHashRemoveUbc_Click);
+            // 
+            // buttonHashAddUbc
+            // 
+            this.buttonHashAddUbc.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonHashAddUbc.Enabled = false;
+            this.buttonHashAddUbc.Font = new System.Drawing.Font("PMingLiU", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.buttonHashAddUbc.Location = new System.Drawing.Point(3, 33);
+            this.buttonHashAddUbc.Name = "buttonHashAddUbc";
+            this.buttonHashAddUbc.Size = new System.Drawing.Size(68, 58);
+            this.buttonHashAddUbc.TabIndex = 0;
+            this.buttonHashAddUbc.Text = "+";
+            this.buttonHashAddUbc.UseVisualStyleBackColor = true;
+            this.buttonHashAddUbc.Click += new System.EventHandler(this.buttonHashAddUbc_Click);
+            // 
+            // labelHashListUbc
+            // 
+            this.labelHashListUbc.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.labelHashListUbc.AutoSize = true;
+            this.labelHashListUbc.Location = new System.Drawing.Point(15, 7);
+            this.labelHashListUbc.Name = "labelHashListUbc";
+            this.labelHashListUbc.Size = new System.Drawing.Size(56, 15);
+            this.labelHashListUbc.TabIndex = 0;
+            this.labelHashListUbc.Text = "Hash List";
+            // 
             // buttonSignUbc
             // 
             this.buttonSignUbc.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonSignUbc.Enabled = false;
             this.buttonSignUbc.Font = new System.Drawing.Font("Microsoft JhengHei UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.buttonSignUbc.Location = new System.Drawing.Point(3, 93);
+            this.buttonSignUbc.Location = new System.Drawing.Point(3, 179);
             this.buttonSignUbc.Name = "buttonSignUbc";
-            this.buttonSignUbc.Size = new System.Drawing.Size(764, 251);
+            this.buttonSignUbc.Size = new System.Drawing.Size(764, 165);
             this.buttonSignUbc.TabIndex = 1;
             this.buttonSignUbc.Text = "Sign";
             this.buttonSignUbc.UseVisualStyleBackColor = true;
@@ -866,8 +1027,12 @@
             this.tableLayoutPanel9.PerformLayout();
             this.tabPageUbc.ResumeLayout(false);
             this.tableLayoutPanel10.ResumeLayout(false);
+            this.tableLayoutPanel12.ResumeLayout(false);
             this.tableLayoutPanel11.ResumeLayout(false);
             this.tableLayoutPanel11.PerformLayout();
+            this.tableLayoutPanel13.ResumeLayout(false);
+            this.tableLayoutPanel14.ResumeLayout(false);
+            this.tableLayoutPanel14.PerformLayout();
             this.tableLayoutPanel6.ResumeLayout(false);
             this.tableLayoutPanel7.ResumeLayout(false);
             this.tableLayoutPanel7.PerformLayout();
@@ -937,5 +1102,16 @@
         private TextBox textBoxSignedImageDisk;
         private Button buttonSignedImageDisk;
         private Button buttonSignDisk;
+        private TableLayoutPanel tableLayoutPanel12;
+        private TableLayoutPanel tableLayoutPanel13;
+        private TextBox textBoxUbiosVersionUbc;
+        private Label labelUbcVersion;
+        private Label labelUbiosVersionUbc;
+        private TextBox textBoxUbcVersion;
+        private ListBox listBoxHashUbc;
+        private TableLayoutPanel tableLayoutPanel14;
+        private Button buttonHashRemoveUbc;
+        private Button buttonHashAddUbc;
+        private Label labelHashListUbc;
     }
 }
