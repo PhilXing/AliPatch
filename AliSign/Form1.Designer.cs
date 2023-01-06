@@ -209,7 +209,6 @@
             this.textBoxDsaPrivateKey.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxDsaPrivateKey.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.textBoxDsaPrivateKey.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.FileSystem;
-            this.textBoxDsaPrivateKey.Enabled = false;
             this.textBoxDsaPrivateKey.Location = new System.Drawing.Point(123, 44);
             this.textBoxDsaPrivateKey.Name = "textBoxDsaPrivateKey";
             this.textBoxDsaPrivateKey.Size = new System.Drawing.Size(572, 23);
@@ -218,7 +217,6 @@
             // 
             // buttonDsaPrivateKey
             // 
-            this.buttonDsaPrivateKey.Enabled = false;
             this.buttonDsaPrivateKey.Font = new System.Drawing.Font("PMingLiU", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.buttonDsaPrivateKey.Location = new System.Drawing.Point(701, 40);
             this.buttonDsaPrivateKey.Name = "buttonDsaPrivateKey";

@@ -336,8 +336,8 @@ namespace AliSign
         {
             textBoxSignedImageBios.Enabled = isValid;
             buttonSignedImageBios.Enabled = isValid;
-            textBoxDsaPrivateKey.Enabled = isValid;
-            buttonDsaPrivateKey.Enabled = isValid;
+            //textBoxDsaPrivateKey.Enabled = isValid;
+            //buttonDsaPrivateKey.Enabled = isValid;
             textBoxUbiosVersion.Enabled = isValid;
             textBoxUbiosPublicKey.Enabled = isValid;
             buttonUbiosPublicKey.Enabled = isValid;
@@ -401,6 +401,7 @@ namespace AliSign
                 {
                     textBoxSignedImageBios.Text =  Path.GetDirectoryName(text) + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(text) + "_signed" + Path.GetExtension(text); ;
                 }
+                resetInputFilesmageBios(sender, e);
                 enableControlsBios(isValidImageBios());
             }
             else
@@ -531,18 +532,14 @@ namespace AliSign
 
         private void resetInputFiles(object sender, EventArgs e)
         {
-            var ImageBiosSelected = false;
             textBoxImageBios.Text = string.Empty;
-            textBoxSignedImageBios.Text = string.Empty;
             textBoxDsaPrivateKey.Text = string.Empty;
-            textBoxUbiosPublicKey.Text = string.Empty;
             textBoxUbcPublicKey.Text = string.Empty;
             textBoxBootLoaderPublicKey.Text = string.Empty;
 
             textBoxImageDisk.Text = string.Empty;
-            textBoxSignedImageDisk.Text = string.Empty;
+
             textBoxImageUbc.Text = string.Empty;
-            textBoxSignedImageUbc.Text = string.Empty;
 
             listBoxHash.Items.Clear();
 
@@ -581,18 +578,18 @@ namespace AliSign
                     }
                     continue;
                 }
-                if (info.Length == SIZE_FILE_BIOS && !info.Name.Contains("output", StringComparison.OrdinalIgnoreCase))
+                if (info.Length == SIZE_FILE_BIOS && !info.Name.Contains("output", StringComparison.OrdinalIgnoreCase) && !info.Name.Contains("sign", StringComparison.OrdinalIgnoreCase))
                 {
-                    bytesImageBios = File.ReadAllBytes(info.FullName);
+                    //bytesImageBios = File.ReadAllBytes(info.FullName);
 
-                    if (isValidImageBios())
-                    {
-                        textBoxImageBios.Text = info.FullName;
-                        ImageBiosSelected = true;
-                    }
+                    //if (isValidImageBios())
+                    //{
+                    //    textBoxImageBios.Text = info.FullName;
+                    //}
+                    textBoxImageBios.Text = info.FullName;
                     continue;
                 }
-                if (info.Length == SIZE_FILE_DISK  && !info.Name.Contains("output", StringComparison.OrdinalIgnoreCase))
+                if (info.Length == SIZE_FILE_DISK && !info.Name.Contains("output", StringComparison.OrdinalIgnoreCase))
                 {
                     textBoxImageDisk.Text = info.FullName;
                     continue;
@@ -603,13 +600,17 @@ namespace AliSign
                     continue;
                 }
             }
-            if (String.IsNullOrEmpty(textBoxUbiosVersion.Text))
+        }
+
+        private void resetInputFilesmageBios(object sender, EventArgs e)
+        {
+            //
+            // retrueve version nubers from image
+            //
+            if (textBoxUbiosVersion.Text.Length == 0)
             {
-                textBoxUbiosVersion.Text = DEFAULT_VERSION_STRING;
+                textBoxUbiosVersion.Text = System.Text.Encoding.UTF8.GetString(bytesImageBios[OFFSET_UBIOS_VERSION..(OFFSET_UBIOS_VERSION + textBoxUbiosVersion.MaxLength)]).Replace("\0", string.Empty);
             }
-
-            enableControlsBios(ImageBiosSelected);
-
         }
 
         private void buttonWorkingFolder_Click(object sender, EventArgs e)
@@ -822,6 +823,7 @@ namespace AliSign
             if (!File.Exists(textBoxImageDisk.Text))
             {
                 enableControlsDisk(false);
+                return;
             }
 
             //
@@ -977,7 +979,7 @@ namespace AliSign
             //
             if (textBoxUbiosVersionUbc.Text.Length == 0)
             {
-                textBoxUbiosVersionUbc.Text = System.Text.Encoding.UTF8.GetString(bytesImageUbc[OFFSET_UBIOS_VERSION_UBC..OFFSET_UBC_VERSION]).Replace("\0", string.Empty);
+                textBoxUbiosVersionUbc.Text = System.Text.Encoding.UTF8.GetString(bytesImageUbc[OFFSET_UBIOS_VERSION_UBC..(OFFSET_UBIOS_VERSION_UBC + textBoxUbiosVersionUbc.MaxLength)]).Replace("\0", string.Empty);
             }
             if(textBoxUbcVersion.Text.Length == 0)
             {
