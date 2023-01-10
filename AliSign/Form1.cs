@@ -60,6 +60,8 @@ namespace AliSign
 
         public const int MAX_WORKING_FOLDER_SAVED = 5;
 
+        public const int SIZE_DISK_SECTOR = 512;
+
         public const int HASH_SIZE = 20;
         public const int SIGNATURE_SIZE = 40;
         public const int RETRY_SIGN = 10;
@@ -68,7 +70,6 @@ namespace AliSign
         public const int PRIVATE_KEY_SIZE_2 = 672;
         public const int PUBLIC_KEY_SIZE = 404;
         public const int SIZE_FILE_BIOS = 0x800000;
-        public const string DEFAULT_VERSION_STRING = "UBIOS Version: 8.00.0";
 
         public const int OFFSET_HASH_LIST_START = 0x37c;
         public const int OFFSET_HASH_LIST_END_PLUS1 = 0x10000;
@@ -649,29 +650,58 @@ namespace AliSign
             }
         }
 
+        private void enableControlsDsa(bool isValid)
+        {
+            textBoxImageBios.Enabled = isValid;
+            buttonImageBios.Enabled = isValid;
+            enableControlsBios(isValid);
+            textBoxImageDisk.Enabled = isValid;
+            buttonImageDisk.Enabled = isValid;
+            enableControlsDisk(isValid);
+            textBoxImageUbc.Enabled = isValid;
+            buttonImageUbc.Enabled = isValid;
+            enableControlsUbc(isValid);
+        }
+        
         private void textBoxDsaPrivateKey_TextChanged(object sender, EventArgs e)
         {
-            if (!File.Exists(textBoxDsaPrivateKey.Text)) { return; }
+            System.Windows.Forms.TextBox textBox = (System.Windows.Forms.TextBox)sender;
+            string text = textBox.Text;
 
-            string pem = File.ReadAllText(textBoxDsaPrivateKey.Text);
+            if (File.Exists(text))
+            {
+                string pem = File.ReadAllText(text);
 
-            // Create a PemReader to parse the PEM file
-            var reader = new PemReader(new StringReader(pem));
+                // Create a PemReader to parse the PEM file
+                var reader = new PemReader(new StringReader(pem));
 
-            // Read the private key from the PEM file
-            AsymmetricCipherKeyPair keyPair = (AsymmetricCipherKeyPair)reader.ReadObject();
+                // Read the private key from the PEM file
+                AsymmetricCipherKeyPair keyPair = (AsymmetricCipherKeyPair)reader.ReadObject();
 
-            // Get the DSA private key from the key pair
-            DsaPrivateKeyParameters dsaPrivateKey = (DsaPrivateKeyParameters)keyPair.Private;
+                if (keyPair == null)
+                {
+                    enableControlsDsa(false);
+                    return;
+                }
 
-            // Create a SHA1 hash function
-            hashFunction = new Sha1Digest();
+                // Get the DSA private key from the key pair
+                DsaPrivateKeyParameters dsaPrivateKey = (DsaPrivateKeyParameters)keyPair.Private;
 
-            // Create a DSA signer object
-            signer = new DsaSigner();
+                // Create a SHA1 hash function
+                hashFunction = new Sha1Digest();
 
-            // Initialize the signer with the DSA private key
-            signer.Init(true, dsaPrivateKey);
+                // Create a DSA signer object
+                signer = new DsaSigner();
+
+                // Initialize the signer with the DSA private key
+                signer.Init(true, dsaPrivateKey);
+
+                enableControlsDsa(true);
+            }
+            else
+            {
+                enableControlsDsa(false);
+            }
         }
 
         private byte[] bigIntegersToBytes(Org.BouncyCastle.Math.BigInteger[] bigIntArray)
@@ -793,7 +823,6 @@ namespace AliSign
         //
         // constants for singing disk
         //
-        public const int SIZE_DISK_SECTOR = 512;
 
         private void enableControlsDisk(bool isValid)
         {
@@ -833,7 +862,7 @@ namespace AliSign
 
             if (bytesImageDisk.Length != SIZE_FILE_DISK)
             {
-                enableControlsUbc(false);
+                enableControlsDisk(false);
                 return;
             }
 
@@ -979,9 +1008,28 @@ namespace AliSign
             //
             if (textBoxUbiosVersionUbc.Text.Length == 0)
             {
-                textBoxUbiosVersionUbc.Text = System.Text.Encoding.UTF8.GetString(bytesImageUbc[OFFSET_UBIOS_VERSION_UBC..(OFFSET_UBIOS_VERSION_UBC + textBoxUbiosVersionUbc.MaxLength)]).Replace("\0", string.Empty);
+                byte[] bytesUbiosVersion = bytesImageUbc[OFFSET_UBIOS_VERSION_UBC..(OFFSET_UBIOS_VERSION_UBC + textBoxUbiosVersionUbc.MaxLength)];
+
+                bool all0xff = true;
+                foreach (byte b in bytesUbiosVersion)
+                {
+                    if (b != 0xff)
+                    {
+                        all0xff = false;
+                        break;
+                    }
+                }
+
+                if (all0xff)
+                {
+                    textBoxUbiosVersionUbc.Text = textBoxUbiosVersion.Text;
+                }
+                else
+                {
+                    textBoxUbiosVersionUbc.Text = System.Text.Encoding.UTF8.GetString(bytesUbiosVersion).Replace("\0", string.Empty);
+                }
             }
-            if(textBoxUbcVersion.Text.Length == 0)
+            if (textBoxUbcVersion.Text.Length == 0)
             {
                 textBoxUbcVersion.Text = System.Text.Encoding.UTF8.GetString(bytesImageUbc[OFFSET_UBC_VERSION..(OFFSET_UBC_VERSION + 6)]).Replace("\0", string.Empty);
             }
@@ -1128,6 +1176,11 @@ namespace AliSign
                     listBoxHashUbc.Items.Remove(listBoxHashUbc.SelectedItems[0]);
                 }
             }
+        }
+
+        private void buttonSignedImageBios_Click(object sender, EventArgs e)
+        {
+            textBoxSignedImageBios.Text = buttonFilePath_Click(textBoxSignedImageBios.Text);
         }
     }
 }

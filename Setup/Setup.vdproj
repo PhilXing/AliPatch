@@ -203,7 +203,7 @@
         "UpgradeCode" = "8:{70277106-90FE-47CF-96E3-A16D8C9CA8C3}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
-        "RemovePreviousVersions" = "11:FALSE"
+        "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
         "ProductVersion" = "8:1.0.0"
@@ -748,7 +748,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_862AFE1BFDDF4DAFAD9028F44E6D46F4"
             {
-            "SourcePath" = "8:..\\AliSign\\obj\\Release\\net6.0-windows\\apphost.exe"
+            "SourcePath" = "8:..\\AliSign\\obj\\Debug\\net6.0-windows\\apphost.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_920B9F3A18A342DDBA4B6E30A5768DAA"

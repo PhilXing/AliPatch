@@ -383,6 +383,7 @@
             this.buttonSignedImageBios.TabIndex = 8;
             this.buttonSignedImageBios.Text = "...";
             this.buttonSignedImageBios.UseVisualStyleBackColor = true;
+            this.buttonSignedImageBios.Click += new System.EventHandler(this.buttonSignedImageBios_Click);
             // 
             // textBoxSignedImageBios
             // 
@@ -596,7 +597,7 @@
             // tableLayoutPanel9
             // 
             this.tableLayoutPanel9.ColumnCount = 3;
-            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 120F));
+            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
             this.tableLayoutPanel9.Controls.Add(this.labelImageDisk, 0, 0);
@@ -618,7 +619,7 @@
             // 
             this.labelImageDisk.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.labelImageDisk.AutoSize = true;
-            this.labelImageDisk.Location = new System.Drawing.Point(48, 12);
+            this.labelImageDisk.Location = new System.Drawing.Point(28, 12);
             this.labelImageDisk.Name = "labelImageDisk";
             this.labelImageDisk.Size = new System.Drawing.Size(69, 15);
             this.labelImageDisk.TabIndex = 0;
@@ -629,9 +630,9 @@
             this.textBoxImageDisk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxImageDisk.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.textBoxImageDisk.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.FileSystem;
-            this.textBoxImageDisk.Location = new System.Drawing.Point(123, 8);
+            this.textBoxImageDisk.Location = new System.Drawing.Point(103, 8);
             this.textBoxImageDisk.Name = "textBoxImageDisk";
-            this.textBoxImageDisk.Size = new System.Drawing.Size(552, 23);
+            this.textBoxImageDisk.Size = new System.Drawing.Size(572, 23);
             this.textBoxImageDisk.TabIndex = 1;
             this.textBoxImageDisk.TextChanged += new System.EventHandler(this.textBoxImageDisk_TextChanged);
             // 
@@ -651,7 +652,7 @@
             // 
             this.labelSignedImageDisk.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.labelSignedImageDisk.AutoSize = true;
-            this.labelSignedImageDisk.Location = new System.Drawing.Point(31, 54);
+            this.labelSignedImageDisk.Location = new System.Drawing.Point(11, 54);
             this.labelSignedImageDisk.Name = "labelSignedImageDisk";
             this.labelSignedImageDisk.Size = new System.Drawing.Size(86, 15);
             this.labelSignedImageDisk.TabIndex = 3;
@@ -662,9 +663,9 @@
             this.textBoxSignedImageDisk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxSignedImageDisk.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.textBoxSignedImageDisk.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.FileSystem;
-            this.textBoxSignedImageDisk.Location = new System.Drawing.Point(123, 50);
+            this.textBoxSignedImageDisk.Location = new System.Drawing.Point(103, 50);
             this.textBoxSignedImageDisk.Name = "textBoxSignedImageDisk";
-            this.textBoxSignedImageDisk.Size = new System.Drawing.Size(552, 23);
+            this.textBoxSignedImageDisk.Size = new System.Drawing.Size(572, 23);
             this.textBoxSignedImageDisk.TabIndex = 4;
             // 
             // buttonSignedImageDisk
